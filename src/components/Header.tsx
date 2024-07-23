@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import {
   Sheet,
@@ -12,18 +13,22 @@ import {
 import Logo from '@/assets/logo.svg';
 
 export default function Header() {
-  return (
-    <header className="h-[72px] sticky top-0 bg-background w-full flex items-center justify-between px-5 max-w-full  border-b border-divider">
-      <Sheet>
-        <SheetTrigger className="flex gap-3 items-center">
-          <div className="border-[.84px] rounded-lg flex justify-center items-center border-border w-8 h-8 shadow-[0px 0.84px 1.68px 0px #0000000D]">
-            <Menu width={13} height={13} />
-          </div>
+  const navigate = useNavigate();
 
-          <div>
+  return (
+    <header className="h-[72px] sticky top-0 bg-background w-full flex items-center justify-between app-x-spacing max-w-full border-b border-divider">
+      <Sheet>
+        <div className="flex gap-3 items-center">
+          <SheetTrigger>
+            <div className="border-[.84px] rounded-lg flex justify-center items-center border-border w-8 h-8 shadow-[0px 0.84px 1.68px 0px #0000000D]">
+              <Menu width={13} height={13} />
+            </div>
+          </SheetTrigger>
+
+          <div role="button" onClick={() => navigate('/')}>
             <img src={Logo} alt="Price Officer" width={83.5} height={28} />
           </div>
-        </SheetTrigger>
+        </div>
 
         <SheetContent side="left" hideCloseIcon>
           <SheetHeader>
@@ -43,7 +48,12 @@ export default function Header() {
         </SheetContent>
       </Sheet>
 
-      <button className="h-8 w-[102px] bg-primary-light rounded-lg text-sm text-primary">Report Price</button>
+      <button
+        onClick={() => navigate('/report-price')}
+        className="h-8 w-[102px] bg-primary-light rounded-lg text-sm text-primary"
+      >
+        Report Price
+      </button>
     </header>
   );
 }
