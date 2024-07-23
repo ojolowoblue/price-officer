@@ -3,7 +3,7 @@ import Header from './Header';
 
 export default function AppLayout() {
   return (
-    <div className="max-w-md relative m-auto">
+    <div className="max-w-screen-2xl relative m-auto">
       <Header />
 
       <Outlet />
