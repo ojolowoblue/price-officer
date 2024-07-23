@@ -15,7 +15,8 @@ export default {
         divider: "#F2F4F7",
         placeholder: "#6B7280",
         ring: "#4A27B5",
-
+        input: "#F0F2F5",
+        muted: "#616F84"
       },
       keyframes: {
         "full-width": { to: { width: "100%" } },
