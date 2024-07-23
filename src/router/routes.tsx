@@ -4,6 +4,7 @@ import { RouteObject } from 'react-router-dom';
 import AppLayout from '@/components/AppLayout';
 
 const EntryPage = lazy(() => import('@/views/Entry'));
+const ReportPrice = lazy(() => import('@/views/ReportPrice'));
 
 export const appRoutes: RouteObject[] = [
   {
@@ -13,6 +14,10 @@ export const appRoutes: RouteObject[] = [
       {
         index: true,
         element: <EntryPage />,
+      },
+      {
+        path: 'report-price',
+        element: <ReportPrice />,
       },
     ],
   },
