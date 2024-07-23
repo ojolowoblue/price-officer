@@ -10,8 +10,12 @@ export default {
         primary: "#4A27B5",
         "primary-light": "#F1EEFB",
         background: "#FFF",
+        foreground: "#2E2E3A",
         border: "#E5E7EB",
-        divider: "#F2F4F7"
+        divider: "#F2F4F7",
+        placeholder: "#6B7280",
+        ring: "#4A27B5",
+
       },
       keyframes: {
         "full-width": { to: { width: "100%" } },

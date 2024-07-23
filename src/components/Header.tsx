@@ -13,7 +13,7 @@ import Logo from '@/assets/logo.svg';
 
 export default function Header() {
   return (
-    <header className="h-[72px] bg-background w-full flex items-center justify-between px-5 max-w-full  border-b border-divider">
+    <header className="h-[72px] sticky top-0 bg-background w-full flex items-center justify-between px-5 max-w-full  border-b border-divider">
       <Sheet>
         <SheetTrigger className="flex gap-3 items-center">
           <div className="border-[.84px] rounded-lg flex justify-center items-center border-border w-8 h-8 shadow-[0px 0.84px 1.68px 0px #0000000D]">
