@@ -1,6 +1,9 @@
+import Button from '@/components/ui/Button';
 
 export default function Entry() {
   return (
-    <h1 className='text-2xl'>This is the Entry screen</h1>
-  )
+    <div className="p-5">
+      <Button fullWidth>Report Price</Button>
+    </div>
+  );
 }
