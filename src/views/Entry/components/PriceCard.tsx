@@ -33,7 +33,7 @@ export default function PriceCard(props: Price) {
         <div className="flex items-center justify-between">
           <p className="flex gap-1 items-center">
             <span
-              className={cn('w-6 h-6 flex items-center justify-center rounded-full', {
+              className={cn('w-6 h-6 flex items-center justify-center rounded-full bg-[#F5F5F5]', {
                 'bg-[#EBFFF3]': true,
               })}
             >
@@ -44,7 +44,7 @@ export default function PriceCard(props: Price) {
 
           <p className="flex gap-1 items-center">
             <span
-              className={cn('w-6 h-6 flex items-center justify-center rounded-full', {
+              className={cn('w-6 h-6 flex items-center justify-center rounded-full bg-[#F5F5F5]', {
                 'bg-[#EBFFF3]': false,
               })}
             >
@@ -55,7 +55,7 @@ export default function PriceCard(props: Price) {
 
           <p className="flex gap-1 items-center">
             <span
-              className={cn('w-6 h-6 flex items-center justify-center rounded-full', {
+              className={cn('w-6 h-6 flex items-center justify-center rounded-full bg-[#F5F5F5]', {
                 'bg-[#EBFFF3]': false,
               })}
             >
