@@ -3,7 +3,5 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, sans-serif;
+  font-family: 'Outfit', sans-serif;
 }
-
-
