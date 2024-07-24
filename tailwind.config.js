@@ -18,6 +18,9 @@ export default {
         input: "#F0F2F5",
         muted: "#616F84"
       },
+      backgroundImage: {
+        'custom-gradient': 'linear-gradient(90deg, rgba(97, 111, 132, 0.8) 0%, rgba(97, 111, 132, 0.2) 100%)',
+      },
       keyframes: {
         "full-width": { to: { width: "100%" } },
         "fade-in": {
