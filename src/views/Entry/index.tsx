@@ -42,7 +42,7 @@ const priceList: Price[] = [
 
 export default function Entry() {
   return (
-    <div>
+    <div className="bg-[#f9fafb]">
       <div className="bg-primary app-x-spacing py-8 flex flex-col items-center gap-5">
         <h2 className="text-[18px]  leading-[28px] text-white">Find the Best Prices Around</h2>
 

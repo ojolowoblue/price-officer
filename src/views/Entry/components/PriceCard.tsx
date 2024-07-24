@@ -16,7 +16,7 @@ export default function PriceCard(props: Price) {
   const { image, name, location, updatedAt, price } = props;
 
   return (
-    <div className="border border-[#F0F2F5] p-4 flex gap-4 rounded-lg">
+    <div className="border bg-background border-[#F0F2F5] p-4 flex gap-4 rounded-lg">
       <img src={image} alt={name} />
 
       <div className="flex flex-col justify-between">
