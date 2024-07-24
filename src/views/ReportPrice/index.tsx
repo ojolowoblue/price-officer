@@ -1,6 +1,16 @@
 import Input from '@/components/ui/Input';
 import Label from '@/components/ui/Label';
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/Dialog';
+
+import {
   Select,
   SelectContent,
   SelectGroup,
@@ -12,7 +22,6 @@ import {
 import Switch from '@/components/ui/Switch';
 
 import ImgIcon from '@/assets/img-icon.png';
-import Button from '@/components/ui/Button';
 
 export default function ReportPrice() {
   return (
@@ -77,7 +86,34 @@ export default function ReportPrice() {
         </div>
       </div>
 
-      <Button fullWidth>Report Price</Button>
+      <Dialog>
+        <DialogTrigger className="w-full">
+          <div
+            role="button"
+            className="flex items-center justify-center h-12 px-6 bg-primary text-white text-base rounded-lg w-full"
+          >
+            Report Price
+          </div>
+        </DialogTrigger>
+
+        <DialogContent className="max-w-[335px]">
+          <DialogHeader className="flex flex-col items-center">
+            <DialogTitle className="mb-5 text-center">
+              <span className="font-bold text-[40px]">🎉</span>
+            </DialogTitle>
+            <DialogTitle className="font-medium text-xl mb-5 text-center">Price Report Successful</DialogTitle>
+            <DialogDescription className="text-muted leading-[24px] text-center">
+              Yayy! You have just reported the price in your area, Thanks!
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex justify-center">
+            <DialogClose className='bg-background border rounded-lg border-border w-[82px] h-[33px] text-sm mt-3"'>
+              Done
+            </DialogClose>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
