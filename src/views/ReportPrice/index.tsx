@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/Dialog';
-
 import {
   Select,
   SelectContent,
@@ -22,6 +21,7 @@ import {
 import Switch from '@/components/ui/Switch';
 
 import ImgIcon from '@/assets/img-icon.png';
+import { productNames, units } from './utils';
 
 export default function ReportPrice() {
   return (
@@ -33,7 +33,21 @@ export default function ReportPrice() {
       </div>
 
       <div className="flex flex-col gap-6 md:grid md:grid-cols-2">
-        <Input label="Product" placeholder="Enter product name" />
+        <Select>
+          <SelectGroup>
+            <SelectLabel>Product</SelectLabel>
+            <SelectTrigger>
+              <SelectValue placeholder="Enter product name" />
+            </SelectTrigger>
+            <SelectContent>
+              {productNames.map((prod) => (
+                <SelectItem key={prod.name} value={prod.name}>
+                  {prod.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </SelectGroup>
+        </Select>
 
         <Select>
           <SelectGroup>
@@ -42,9 +56,11 @@ export default function ReportPrice() {
               <SelectValue placeholder="Select Unit" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="light">Light</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-              <SelectItem value="system">System</SelectItem>
+              {units.map((unit) => (
+                <SelectItem key={unit} value={unit}>
+                  {unit}
+                </SelectItem>
+              ))}
             </SelectContent>
           </SelectGroup>
         </Select>
