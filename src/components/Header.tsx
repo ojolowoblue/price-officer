@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import {
   Sheet,
@@ -11,12 +11,13 @@ import {
 } from '@/components/ui/Sheet';
 
 import Logo from '@/assets/logo.svg';
+import { appLinks } from '@/constants/appLinks';
 
 export default function Header() {
   const navigate = useNavigate();
 
   return (
-    <header className="h-[72px] sticky top-0 bg-background w-full flex items-center justify-between app-x-spacing max-w-full border-b border-divider">
+    <header className="h-[72px] z-[200] sticky top-0 bg-background w-full flex items-center justify-between app-x-spacing max-w-full border-b border-divider">
       <Sheet>
         <div className="flex gap-3 items-center">
           <SheetTrigger>
@@ -44,6 +45,16 @@ export default function Header() {
 
             <SheetTitle></SheetTitle>
             <SheetDescription></SheetDescription>
+
+            <div className="mt-5 flex flex-col">
+              {appLinks.map((link) => (
+                <Link key={link.name} to={link.path}>
+                  <SheetTrigger className="py-4 px-3 w-full text-sm text-placeholder text-left">
+                    {link.name}
+                  </SheetTrigger>
+                </Link>
+              ))}
+            </div>
           </SheetHeader>
         </SheetContent>
       </Sheet>
