@@ -37,7 +37,7 @@ export default function ReportPrice() {
           <SelectGroup>
             <SelectLabel>Product</SelectLabel>
             <SelectTrigger>
-              <SelectValue placeholder="Enter product name" />
+              <SelectValue placeholder="Choose product name" />
             </SelectTrigger>
             <SelectContent>
               {productNames.map((prod) => (
