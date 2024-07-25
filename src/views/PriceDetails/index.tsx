@@ -83,16 +83,16 @@ export default function PriceDetails() {
       </div>
 
       <div>
-        <Tabs defaultValue="account" className="w-full">
+        <Tabs defaultValue="comments" className="w-full">
           <TabsList className="w-full">
-            <TabsTrigger value="account" className="flex-1">
-              Account
+            <TabsTrigger value="comments" className="flex-1">
+              Comments
             </TabsTrigger>
-            <TabsTrigger value="password" className="flex-1">
-              Password
+            <TabsTrigger value="compare" className="flex-1">
+              Compare
             </TabsTrigger>
           </TabsList>
-          <TabsContent className="app-x-spacing py-4" value="account">
+          <TabsContent className="app-x-spacing py-4" value="comments">
             <div className="flex gap-2">
               <div className="w-8 h-8 bg-[#f6f6f6] flex justify-center items-center  rounded-full">
                 <img src="/images/small-spagh.png" />
@@ -130,7 +130,7 @@ export default function PriceDetails() {
               </div>
             </div>
           </TabsContent>
-          <TabsContent value="password">
+          <TabsContent value="compare">
             {Array(3)
               .fill('')
               .map((_, idx) => (
