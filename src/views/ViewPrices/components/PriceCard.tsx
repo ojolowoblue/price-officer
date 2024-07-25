@@ -22,7 +22,7 @@ export default function PriceCard(props: Price) {
     <div
       role="contentinfo"
       onClick={() => navigate('uuid')}
-      className="border bg-background border-[#F0F2F5] p-4 flex gap-4 rounded-lg"
+      className="border bg-background border-[#F0F2F5] p-4 flex gap-4 rounded-lg cursor-pointer"
     >
       <img src={image} alt={name} />
 

@@ -1,5 +1,5 @@
 import { MessageCircle, ThumbsDown, ThumbsUp } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Breadcrumb,
@@ -13,15 +13,15 @@ import { cn } from '@/lib/classnames';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 
 export default function PriceDetails() {
+  const navigate = useNavigate();
+
   return (
-    <div className=" py-5 flex flex-col bg-[#F9FAFB]">
+    <div className="py-5 flex flex-col bg-[#F9FAFB]">
       <Breadcrumb className="mb-8 app-x-spacing">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link to="/view-prices" className="text-[#4B5563] text-sm">
-                View Prices
-              </Link>
+            <BreadcrumbLink onClick={() => navigate('/view-prices')} className="text-[#4B5563] cursor-pointer text-sm">
+              View Prices
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -133,8 +133,8 @@ export default function PriceDetails() {
           <TabsContent value="password">
             {Array(3)
               .fill('')
-              .map(() => (
-                <div className="flex gap-2 border-b py-4 app-x-spacing last:border-0">
+              .map((_, idx) => (
+                <div key={idx.toString()} className="flex gap-2 border-b py-4 app-x-spacing last:border-0">
                   <div className="w-[50px] h-[50px] bg-[#f6f6f6] rounded-lg flex justify-center items-center">
                     <img src="/images/small-spagh.png" />
                   </div>

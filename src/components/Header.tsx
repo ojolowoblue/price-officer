@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import {
   Sheet,
@@ -48,11 +48,13 @@ export default function Header() {
 
             <div className="mt-5 flex flex-col">
               {appLinks.map((link) => (
-                <Link key={link.name} to={link.path}>
-                  <SheetTrigger className="py-4 px-3 w-full text-sm text-placeholder text-left">
-                    {link.name}
-                  </SheetTrigger>
-                </Link>
+                <SheetTrigger
+                  key={link.name}
+                  onClick={() => navigate(link.path)}
+                  className="py-4 px-3 w-full text-sm text-placeholder text-left"
+                >
+                  {link.name}
+                </SheetTrigger>
               ))}
             </div>
           </SheetHeader>
