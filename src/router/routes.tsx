@@ -6,6 +6,7 @@ import AppLayout from '@/components/AppLayout';
 const EntryPage = lazy(() => import('@/views/Entry'));
 const ReportPrice = lazy(() => import('@/views/ReportPrice'));
 const ViewPrices = lazy(() => import('@/views/ViewPrices'));
+const PriceDetails = lazy(() => import('@/views/PriceDetails'));
 
 export const appRoutes: RouteObject[] = [
   {
@@ -22,7 +23,10 @@ export const appRoutes: RouteObject[] = [
       },
       {
         path: 'view-prices',
-        element: <ViewPrices />,
+        children: [
+          { index: true, element: <ViewPrices /> },
+          { path: ':id', element: <PriceDetails /> },
+        ],
       },
       {
         path: '*',

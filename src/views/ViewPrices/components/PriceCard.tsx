@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { MessageCircle, ThumbsDown, ThumbsUp } from 'lucide-react';
 
 import { cn } from '@/lib/classnames';
@@ -15,8 +16,14 @@ export interface Price {
 export default function PriceCard(props: Price) {
   const { image, name, location, updatedAt, price } = props;
 
+  const navigate = useNavigate();
+
   return (
-    <div className="border bg-background border-[#F0F2F5] p-4 flex gap-4 rounded-lg">
+    <div
+      role="contentinfo"
+      onClick={() => navigate('uuid')}
+      className="border bg-background border-[#F0F2F5] p-4 flex gap-4 rounded-lg cursor-pointer"
+    >
       <img src={image} alt={name} />
 
       <div className="flex flex-col justify-between">
