@@ -1,9 +1,9 @@
-import SearchBox from '@/components/ui/Search';
-
-import PriceCard from './components/PriceCard';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import { ChevronDown } from 'lucide-react';
+
+import SearchBox from '@/components/ui/Search';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import { priceList } from '@/constants/data';
+import PriceCard from './components/PriceCard';
 
 const sortOptions = [
   'Default sorting',
@@ -18,7 +18,7 @@ export default function ViewPrices() {
   return (
     <div className="bg-[#f9fafb] min-h-[90vh]">
       <div className="app-x-spacing py-5 flex flex-col gap-6">
-        <h3 className="text-base font-medium text-foreground leading-5">View Price</h3>
+        <h3 className="text-base font-medium text-foreground leading-5">View Prices</h3>
 
         <SearchBox placeholder="Search Items" className="sm:max-w-[500px]" />
 
