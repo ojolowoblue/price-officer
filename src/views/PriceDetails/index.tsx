@@ -119,7 +119,7 @@ export default function PriceDetails() {
                           >
                             <ThumbsUp width={12} color={true ? '#01B049' : '#000'} />
                           </span>
-                          <span className="text-[#0A090B] text-xs">1,299</span>
+                          <span className="text-muted text-xs">1,299</span>
                         </p>
 
                         <p className="flex gap-1 items-center">
@@ -130,7 +130,11 @@ export default function PriceDetails() {
                           >
                             <ThumbsDown width={12} color={false ? '#01B049' : '#000'} />
                           </span>
-                          <span className="text-[#0A090B] text-xs">1,200</span>
+                          <span className="text-muted text-xs">1,200</span>
+                        </p>
+
+                        <p className="flex gap-1 items-center">
+                          <span className="text-muted text-xs">Reply</span>
                         </p>
                       </div>
                     </div>
