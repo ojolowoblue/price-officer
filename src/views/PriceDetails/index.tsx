@@ -99,8 +99,8 @@ export default function PriceDetails() {
               {Array(2)
                 .fill('')
                 .map((_, idx) => (
-                  <div key={idx.toString()} className="flex gap-2 py-4 border-b last:border-0">
-                    <div className="w-8 h-8 bg-[#f6f6f6] flex justify-center items-center  rounded-full">
+                  <div key={idx.toString()} className="flex gap-2  py-4 border-b last:border-0 app-x-spacing">
+                    <div className="w-8 h-8 bg-[#f6f6f6] flex justify-center items-center rounded-full">
                       <img src="/images/small-spagh.png" />
                     </div>
                     <div className="flex flex-col gap-2">
@@ -139,7 +139,7 @@ export default function PriceDetails() {
             </div>
 
             <div className="bg-background h-[88px] flex items-center justify-center w-full left-0 fixed z-50 bottom-0">
-              <div className="flex items-center justify-center gap-1">
+              <div className="flex items-center justify-center gap-2">
                 <Input placeholder="Add a comment...  " className="h-10 bg-[#F0F2F5] min-w-[287px]" />
                 <Button className="w-10 h-10 rounded-[10px] p-0 flex justify-center items-center">
                   <Send width={16} />
