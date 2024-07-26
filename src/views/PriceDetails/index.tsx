@@ -1,4 +1,4 @@
-import { MessageCircle, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { MessageCircle, Send, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -11,12 +11,14 @@ import {
 } from '@/components/ui/Breadcrumb';
 import { cn } from '@/lib/classnames';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
+import Input from '@/components/ui/Input';
+import Button from '@/components/ui/Button';
 
 export default function PriceDetails() {
   const navigate = useNavigate();
 
   return (
-    <div className="py-5 flex flex-col bg-[#F9FAFB]">
+    <div className="py-5 flex flex-col min-h-screen bg-[#F9FAFB]">
       <Breadcrumb className="mb-8 app-x-spacing">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -92,7 +94,7 @@ export default function PriceDetails() {
               Compare
             </TabsTrigger>
           </TabsList>
-          <TabsContent className="app-x-spacing py-4" value="comments">
+          <TabsContent className="app-x-spacing pt-4" value="comments">
             <div className="flex gap-2">
               <div className="w-8 h-8 bg-[#f6f6f6] flex justify-center items-center  rounded-full">
                 <img src="/images/small-spagh.png" />
@@ -127,6 +129,15 @@ export default function PriceDetails() {
                     <span className="text-[#0A090B] text-xs">1,200</span>
                   </p>
                 </div>
+              </div>
+            </div>
+
+            <div className="bg-background h-[88px] flex items-center justify-center w-full left-0 absolute bottom-0">
+              <div className="flex items-center justify-center gap-1">
+                <Input placeholder="Add a comment...  " className="h-10 bg-[#F0F2F5] min-w-[287px]" />
+                <Button className="w-10 h-10 rounded-[10px] p-0 flex justify-center items-center">
+                  <Send width={16} />
+                </Button>
               </div>
             </div>
           </TabsContent>
