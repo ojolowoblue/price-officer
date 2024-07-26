@@ -26,7 +26,7 @@ export default function PriceDetails() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage className="text-[#192434] text-sm">Breadcrumb</BreadcrumbPage>
+            <BreadcrumbPage className="text-[#192434] text-sm">Price Details</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
