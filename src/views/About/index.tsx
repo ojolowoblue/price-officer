@@ -12,7 +12,7 @@ export default function About() {
       </div>
 
       <div className="mb-6">
-        <h2 className="mb-2">Welcome to Price Police!</h2>
+        <h2 className="mb-2 font-medium">Welcome to Price Police!</h2>
 
         <p className="text-muted text-sm leading-6">
           At Price Police, our mission is to empower communities by providing transparent and up-to-date information on
@@ -22,7 +22,7 @@ export default function About() {
       </div>
 
       <div className="mb-6">
-        <h2 className="mb-2">Our Story</h2>
+        <h2 className="mb-2 font-medium">Our Story</h2>
 
         <p className="text-muted text-sm leading-6">
           Founded with the vision of making price transparency a reality, Price Police is dedicated to bridging the gap
@@ -32,7 +32,7 @@ export default function About() {
       </div>
 
       <div className="mb-6">
-        <h2 className="mb-2">What We Do</h2>
+        <h2 className="mb-2 font-medium">What We Do</h2>
 
         <p className="text-muted text-sm leading-6">
           Price Police is a community-driven platform where users can report and view prices of goods in their locality.
