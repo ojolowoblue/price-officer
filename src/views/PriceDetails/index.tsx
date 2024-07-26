@@ -94,45 +94,51 @@ export default function PriceDetails() {
               Compare
             </TabsTrigger>
           </TabsList>
-          <TabsContent className="app-x-spacing pt-4" value="comments">
-            <div className="flex gap-2">
-              <div className="w-8 h-8 bg-[#f6f6f6] flex justify-center items-center  rounded-full">
-                <img src="/images/small-spagh.png" />
-              </div>
-              <div className="flex flex-col gap-2">
-                <p className="text-sm text-muted">Adams White | 12 April 2019 at 10:47 AM</p>
+          <TabsContent value="comments">
+            <div className="flex flex-col pb-[72px]">
+              {Array(2)
+                .fill('')
+                .map((_, idx) => (
+                  <div key={idx.toString()} className="flex gap-2 py-4 border-b last:border-0">
+                    <div className="w-8 h-8 bg-[#f6f6f6] flex justify-center items-center  rounded-full">
+                      <img src="/images/small-spagh.png" />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <p className="text-sm text-muted">Adams White | 12 April 2019 at 10:47 AM</p>
 
-                <p className="text-sm text-[#525B71]">
-                  This is a really a good price, the best price i have seen out there 👌🏼{' '}
-                </p>
+                      <p className="text-sm text-[#525B71]">
+                        This is a really a good price, the best price i have seen out there 👌🏼{' '}
+                      </p>
 
-                <div className="flex items-center gap-6 max-w-max">
-                  <p className="flex gap-1 items-center">
-                    <span
-                      className={cn('w-6 h-6 flex items-center justify-center rounded-full bg-[#F5F5F5]', {
-                        'bg-[#EBFFF3]': true,
-                      })}
-                    >
-                      <ThumbsUp width={12} color={true ? '#01B049' : '#000'} />
-                    </span>
-                    <span className="text-[#0A090B] text-xs">1,299</span>
-                  </p>
+                      <div className="flex items-center gap-6 max-w-max">
+                        <p className="flex gap-1 items-center">
+                          <span
+                            className={cn('w-6 h-6 flex items-center justify-center rounded-full bg-[#F5F5F5]', {
+                              'bg-[#EBFFF3]': true,
+                            })}
+                          >
+                            <ThumbsUp width={12} color={true ? '#01B049' : '#000'} />
+                          </span>
+                          <span className="text-[#0A090B] text-xs">1,299</span>
+                        </p>
 
-                  <p className="flex gap-1 items-center">
-                    <span
-                      className={cn('w-6 h-6 flex items-center justify-center rounded-full bg-[#F5F5F5]', {
-                        'bg-[#EBFFF3]': false,
-                      })}
-                    >
-                      <ThumbsDown width={12} color={false ? '#01B049' : '#000'} />
-                    </span>
-                    <span className="text-[#0A090B] text-xs">1,200</span>
-                  </p>
-                </div>
-              </div>
+                        <p className="flex gap-1 items-center">
+                          <span
+                            className={cn('w-6 h-6 flex items-center justify-center rounded-full bg-[#F5F5F5]', {
+                              'bg-[#EBFFF3]': false,
+                            })}
+                          >
+                            <ThumbsDown width={12} color={false ? '#01B049' : '#000'} />
+                          </span>
+                          <span className="text-[#0A090B] text-xs">1,200</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
             </div>
 
-            <div className="bg-background h-[88px] flex items-center justify-center w-full left-0 absolute bottom-0">
+            <div className="bg-background h-[88px] flex items-center justify-center w-full left-0 fixed z-50 bottom-0">
               <div className="flex items-center justify-center gap-1">
                 <Input placeholder="Add a comment...  " className="h-10 bg-[#F0F2F5] min-w-[287px]" />
                 <Button className="w-10 h-10 rounded-[10px] p-0 flex justify-center items-center">
