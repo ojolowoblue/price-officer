@@ -3,6 +3,8 @@ import { RouterProvider } from 'react-router-dom';
 import { Loader2Icon } from 'lucide-react';
 
 import router from './router';
+import QueryProvider from './providers/QueryProvider';
+import TokenProvider from './providers/TokenProvider';
 
 function App() {
   return (
@@ -13,7 +15,11 @@ function App() {
         </div>
       }
     >
-      <RouterProvider router={router} />
+      <TokenProvider>
+        <QueryProvider>
+          <RouterProvider router={router} />
+        </QueryProvider>
+      </TokenProvider>
     </Suspense>
   );
 }

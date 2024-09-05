@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { cn } from '@/lib/classnames';
+import { cn } from '@/libs/classnames';
 import { Search } from 'lucide-react';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}

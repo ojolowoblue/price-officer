@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { MessageCircle, ThumbsDown, ThumbsUp } from 'lucide-react';
 
-import { cn } from '@/lib/classnames';
-import { formatDateStr } from '@/lib/date';
-import { formatMoney } from '@/lib/money';
+import { cn } from '@/libs/classnames';
+import { formatDateStr } from '@/libs/date';
+import { formatMoney } from '@/libs/money';
 
 export interface Price {
   name: string;

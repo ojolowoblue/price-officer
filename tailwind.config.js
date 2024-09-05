@@ -15,6 +15,7 @@ export default {
         divider: "#F2F4F7",
         placeholder: "#6B7280",
         ring: "#4A27B5",
+        destructive: "hsl(0 84.2% 60.2%)",
         input: "#F0F2F5",
         muted: "#616F84"
       },
