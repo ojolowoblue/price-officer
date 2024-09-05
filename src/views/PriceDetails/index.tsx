@@ -9,7 +9,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/Breadcrumb';
-import { cn } from '@/lib/classnames';
+import { cn } from '@/libs/classnames';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
