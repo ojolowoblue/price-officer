@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import useAuth from '@/hooks/useAuth';
-import AppLayout from './AppLayout';
+import Header from './Header';
 
 export default function AuthWrapper() {
   const navigate = useNavigate();
@@ -16,8 +16,12 @@ export default function AuthWrapper() {
   }, [isLoggedIn]);
 
   return (
-    <AppLayout>
-      <Outlet />
-    </AppLayout>
+    <>
+      <Header />
+
+      <div className="max-w-lg relative m-auto">
+        <Outlet />
+      </div>
+    </>
   );
 }

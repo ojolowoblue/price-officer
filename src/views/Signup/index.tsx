@@ -44,15 +44,16 @@ export default function Signup() {
             payload: { access_token: data.data.data.tokens.access.token },
           });
 
-          navigate("/")
+          navigate('/');
         },
       },
     );
   };
 
   return (
-    <div className="p-5 flex flex-col min-h-screen bg-[#F9FAFB]">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <div className="p-5 flex flex-col min-h-screen bg-white">
+      <h1 className="text-2xl mb-10">Signup to create an account</h1>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col lg:grid grid-cols-2 gap-4">
         <Input
           placeholder="Name"
           label="Name"
@@ -90,9 +91,11 @@ export default function Signup() {
           errorMessage={errors.passwordConfirm?.message}
           {...register('passwordConfirm')}
         />
-        <Button disabled={isLoading} loading={isLoading}>
-          Submit
-        </Button>
+        <div className="flex items-end">
+          <Button disabled={isLoading} loading={isLoading} fullWidth>
+            Submit
+          </Button>
+        </div>
       </form>
     </div>
   );
