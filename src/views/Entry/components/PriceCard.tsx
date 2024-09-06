@@ -7,14 +7,14 @@ import { formatMoney, formatNumber } from '@/libs/money';
 import { PriceReport } from '@/model/report';
 
 export default function PriceCard(props: PriceReport) {
-  const { location, updatedAt, price, description, stat, images } = props;
+  const { location, updatedAt, price, description, stat, images, id } = props;
 
   const navigate = useNavigate();
 
   return (
     <div
       role="contentinfo"
-      onClick={() => navigate('uuid')}
+      onClick={() => navigate(`/view-prices/${id}`)}
       className="border bg-background border-[#F0F2F5] p-4 flex gap-4 rounded-lg cursor-pointer"
     >
       <img
