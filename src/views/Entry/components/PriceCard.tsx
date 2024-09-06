@@ -3,28 +3,25 @@ import { MessageCircle, ThumbsDown, ThumbsUp } from 'lucide-react';
 
 import { cn } from '@/libs/classnames';
 import { formatDateStr } from '@/libs/date';
-import { formatMoney } from '@/libs/money';
+import { formatMoney, formatNumber } from '@/libs/money';
+import { PriceReport } from '@/model/report';
 
-export interface Price {
-  name: string;
-  price: number;
-  image: string;
-  location: string;
-  updatedAt: string;
-}
-
-export default function PriceCard(props: Price) {
-  const { image, name, location, updatedAt, price } = props;
+export default function PriceCard(props: PriceReport) {
+  const { location, updatedAt, price, description, stat, images } = props;
 
   const navigate = useNavigate();
 
   return (
     <div
       role="contentinfo"
-      onClick={() => navigate('/view-prices/uuid')}
+      onClick={() => navigate('uuid')}
       className="border bg-background border-[#F0F2F5] p-4 flex gap-4 rounded-lg cursor-pointer"
     >
-      <img src={image} alt={name} />
+      <img
+        src={images.length ? images[0] : '/images/grocs-bag.jpg'}
+        alt={description}
+        className="w-[70px] h-[120ox] object-cover rounded-lg"
+      />
 
       <div className="flex flex-col justify-between">
         <div className="flex flex-col gap-1">
@@ -32,7 +29,7 @@ export default function PriceCard(props: Price) {
             {location} | {formatDateStr(updatedAt, 'DD MMM YYYY [at] hh:mm a')}
           </p>
 
-          <p className="text-sm text-[#1F2937]">{name}</p>
+          <p className="text-sm text-[#1F2937]">{description}</p>
 
           <h2 className="text-xl font-semibold text-[#101928]">{formatMoney(price)}</h2>
         </div>
@@ -41,12 +38,12 @@ export default function PriceCard(props: Price) {
           <p className="flex gap-1 items-center">
             <span
               className={cn('w-6 h-6 flex items-center justify-center rounded-full bg-[#F5F5F5]', {
-                'bg-[#EBFFF3]': true,
+                'bg-[#EBFFF3]': false,
               })}
             >
-              <ThumbsUp width={12} color={true ? '#01B049' : '#000'} />
+              <ThumbsUp width={12} color={false ? '#01B049' : '#000'} />
             </span>
-            <span className="text-[#0A090B] text-xs">1,299</span>
+            <span className="text-[#0A090B] text-xs">{formatNumber(stat.likes)}</span>
           </p>
 
           <p className="flex gap-1 items-center">
@@ -57,7 +54,7 @@ export default function PriceCard(props: Price) {
             >
               <ThumbsDown width={12} color={false ? '#01B049' : '#000'} />
             </span>
-            <span className="text-[#0A090B] text-xs">1,200</span>
+            <span className="text-[#0A090B] text-xs">{formatNumber(stat.dislikes)}</span>
           </p>
 
           <p className="flex gap-1 items-center">
@@ -68,7 +65,7 @@ export default function PriceCard(props: Price) {
             >
               <MessageCircle width={12} color={false ? '#01B049' : '#000'} />
             </span>
-            <span className="text-[#0A090B] text-xs">1,200</span>
+            <span className="text-[#0A090B] text-xs">{stat.comments}</span>
           </p>
         </div>
       </div>

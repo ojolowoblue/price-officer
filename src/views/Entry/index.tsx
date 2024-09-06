@@ -1,9 +1,12 @@
 import SearchBox from '@/components/ui/Search';
 
-import { priceList } from '@/constants/data';
+import AppLoader from '@/components/AppLoader';
 import PriceCard from './components/PriceCard';
+import useListPriceReports from '../../hooks/useListPriceReports';
 
 export default function Entry() {
+  const { data, isLoading, error, listReports } = useListPriceReports();
+
   return (
     <div className="bg-[#f9fafb]">
       <div className="bg-primary app-x-spacing py-8 flex flex-col items-center gap-5">
@@ -19,11 +22,15 @@ export default function Entry() {
       <div className="app-x-spacing pb-5 flex flex-col gap-4">
         <h3 className="text-base font-medium text-foreground leading-5">Best Prices</h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xl:grid-cols-3">
-          {priceList.map((p) => (
-            <PriceCard key={p.name} {...p} />
-          ))}
-        </div>
+        <AppLoader loading={isLoading} errorMessage={error} onRetry={listReports}>
+          {data && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xl:grid-cols-3">
+              {data.results.map((p) => (
+                <PriceCard key={p.id} {...p} />
+              ))}
+            </div>
+          )}
+        </AppLoader>
       </div>
     </div>
   );

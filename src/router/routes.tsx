@@ -3,6 +3,7 @@ import { RouteObject } from 'react-router-dom';
 
 import AppWrapper from '@/components/AppWrapper';
 import AuthWrapper from '@/components/AuthWrapper';
+import AppLayout from '@/components/AppLayout';
 
 const EntryPage = lazy(() => import('@/views/Entry'));
 const ReportPrice = lazy(() => import('@/views/ReportPrice'));
@@ -27,13 +28,8 @@ export const appRoutes: RouteObject[] = [
     ],
   },
   {
-    path: '/',
     element: <AppWrapper />,
     children: [
-      {
-        index: true,
-        element: <EntryPage />,
-      },
       {
         path: 'report-price',
         element: <ReportPrice />,
@@ -46,15 +42,28 @@ export const appRoutes: RouteObject[] = [
           { path: ':id', element: <PriceDetails /> },
         ],
       },
-      {
-        path: 'about',
-        element: <AboutPage />,
-      },
+
       {
         path: '*',
         element: <h1 className="text-center p-10">Page Not Found 👀</h1>,
       },
     ],
+  },
+  {
+    path: 'about',
+    element: (
+      <AppLayout>
+        <AboutPage />
+      </AppLayout>
+    ),
+  },
+  {
+    path: '/',
+    element: (
+      <AppLayout>
+        <EntryPage />
+      </AppLayout>
+    ),
   },
   {
     path: '*',

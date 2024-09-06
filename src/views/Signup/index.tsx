@@ -38,13 +38,12 @@ export default function Signup() {
       },
       {
         onSuccess(data) {
-          console.log(data.data);
           dispatch({
             type: 'SET_TOKENS',
-            payload: { access_token: data.data.data.tokens.access.token },
+            payload: { access_token: data.data.tokens.access.token },
           });
 
-          navigate('/');
+          navigate('/view-prices');
         },
       },
     );

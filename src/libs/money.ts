@@ -94,3 +94,7 @@ export function formatMoney(
   const money = formatMoneyNoCurrency(amount, type, options);
   return type === 'fiat' ? `${getCurrencyCodeSymbol(currency)} ${money}` : `${money} ${currency}`;
 }
+
+export function formatNumber(value: number): string {
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
