@@ -1,7 +1,6 @@
 import { User } from '@/model/user';
-import { GenericResponse } from '../types';
 
-export type SignUpResponse = GenericResponse<User>;
+export type SignUpResponse = User;
 
 export interface SignupPayload {
   name: string;

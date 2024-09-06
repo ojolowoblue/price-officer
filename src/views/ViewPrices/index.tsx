@@ -2,8 +2,9 @@ import { ChevronDown } from 'lucide-react';
 
 import SearchBox from '@/components/ui/Search';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
-import { priceList } from '@/constants/data';
 import PriceCard from './components/PriceCard';
+import useListPriceReports from './hooks/useListPriceReports';
+import AppLoader from '@/components/AppLoader';
 
 const sortOptions = [
   'Default sorting',
@@ -15,6 +16,8 @@ const sortOptions = [
 ];
 
 export default function ViewPrices() {
+  const { data, isLoading, error, listReports } = useListPriceReports();
+
   return (
     <div className="bg-[#f9fafb] min-h-[90vh]">
       <div className="app-x-spacing py-5 flex flex-col gap-6">
@@ -23,7 +26,7 @@ export default function ViewPrices() {
         <SearchBox placeholder="Search Items" className="sm:max-w-[500px]" />
 
         <div className="h-7 flex items-center justify-between">
-          <p className="text-sm text-muted">25,973 results</p>
+          <p className="text-sm text-muted">{data ? `${data.totalResults} results` : '...'}</p>
 
           <Popover>
             <PopoverTrigger className="flex gap-1 items-center text-muted text-sm">
@@ -39,11 +42,13 @@ export default function ViewPrices() {
           </Popover>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xl:grid-cols-3">
-          {priceList.map((p) => (
-            <PriceCard key={p.name} {...p} />
-          ))}
-        </div>
+        <AppLoader loading={isLoading} errorMessage={error} onRetry={listReports}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xl:grid-cols-3">
+            {data?.results.map((p) => (
+              <PriceCard {...p} />
+            ))}
+          </div>
+        </AppLoader>
       </div>
     </div>
   );
