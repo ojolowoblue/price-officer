@@ -2,7 +2,7 @@ import SearchBox from '@/components/ui/Search';
 
 import AppLoader from '@/components/AppLoader';
 import PriceCard from './components/PriceCard';
-import useListPriceReports from '../ViewPrices/hooks/useListPriceReports';
+import useListPriceReports from '../../hooks/useListPriceReports';
 
 export default function Entry() {
   const { data, isLoading, error, listReports } = useListPriceReports();

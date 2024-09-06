@@ -3,7 +3,7 @@ import { ChevronDown } from 'lucide-react';
 import SearchBox from '@/components/ui/Search';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import PriceCard from './components/PriceCard';
-import useListPriceReports from './hooks/useListPriceReports';
+import useListPriceReports from '../../hooks/useListPriceReports';
 import AppLoader from '@/components/AppLoader';
 
 const sortOptions = [
@@ -37,7 +37,7 @@ export default function ViewPrices() {
                 <p key={opt} className="text-sm text-[#525B71]">
                   {opt}
                 </p>
-              ))}{' '}
+              ))}
             </PopoverContent>
           </Popover>
         </div>

@@ -6,7 +6,7 @@ import { parseError } from '@/libs/error';
 
 export default function useListPriceReports() {
   const { data, isLoading, isFetching, refetch, error } = useQuery({
-    queryKey: ['pricr-reports'],
+    queryKey: ['price-reports'],
     queryFn: listPriceReports,
   });
 
