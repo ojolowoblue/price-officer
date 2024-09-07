@@ -11,6 +11,7 @@ const ViewPrices = lazy(() => import('@/views/ViewPrices'));
 const PriceDetails = lazy(() => import('@/views/PriceDetails'));
 const AboutPage = lazy(() => import('@/views/About'));
 const Signup = lazy(() => import('@/views/Signup'));
+const Signin = lazy(() => import('@/views/Signin'));
 
 export const appRoutes: RouteObject[] = [
   {
@@ -20,6 +21,10 @@ export const appRoutes: RouteObject[] = [
       {
         path: 'signup',
         element: <Signup />,
+      },
+      {
+        path: 'signin',
+        element: <Signin />,
       },
       {
         path: '*',
