@@ -9,5 +9,5 @@ const cleanStorage = () => {
 export function navigateToLogin() {
   cleanStorage();
 
-  window.location.replace('/auth/signup');
+  window.location.replace('/auth/signin');
 }

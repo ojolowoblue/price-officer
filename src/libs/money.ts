@@ -87,12 +87,10 @@ export function parseFormattedMoneyStrToNumberStr(moneyString: string) {
  */
 export function formatMoney(
   amount: number,
-  type = 'fiat',
-  currency: string = 'NGN',
   options: Intl.NumberFormatOptions = { maximumFractionDigits: 0, minimumFractionDigits: 0 },
 ) {
-  const money = formatMoneyNoCurrency(amount, type, options);
-  return type === 'fiat' ? `${getCurrencyCodeSymbol(currency)} ${money}` : `${money} ${currency}`;
+  const money = formatMoneyNoCurrency(amount, 'fiat', options);
+  return `${getCurrencyCodeSymbol('NGN')} ${money}`;
 }
 
 export function formatNumber(value: number): string {
