@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router-dom';
 
 import Input from '@/components/ui/Input';
 import Label from '@/components/ui/Label';
@@ -48,7 +49,10 @@ const schema = Yup.object({
 export default function ReportPrice() {
   const [searchTerm, setSearchTerm] = useState('');
   const [newProduct, setNewProduct] = useState('');
+  const [showFeedback, setShowFeedback] = useState(false);
   const [currentLocation, setCurrentLocation] = useState(false);
+
+  const navigate = useNavigate();
 
   const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
@@ -63,11 +67,19 @@ export default function ReportPrice() {
   });
 
   const onSubmit = (payload: Yup.InferType<typeof schema>) => {
-    createReport({
-      ...payload,
-      images: [],
-      currency: 'NGN',
-    });
+    createReport(
+      {
+        ...payload,
+        images: [],
+        currency: 'NGN',
+      },
+      {
+        onSuccess() {
+          queryClient.invalidateQueries({ queryKey: ['price-reports'] });
+          setShowFeedback(true);
+        },
+      },
+    );
   };
 
   return (
@@ -207,7 +219,7 @@ export default function ReportPrice() {
         Report Price
       </Button>
 
-      <Dialog>
+      <Dialog open={showFeedback}>
         <DialogContent className="max-w-[335px]">
           <DialogHeader className="flex flex-col items-center">
             <DialogTitle className="mb-5 text-center">
@@ -220,7 +232,13 @@ export default function ReportPrice() {
           </DialogHeader>
 
           <div className="flex justify-center">
-            <DialogClose className='bg-background border rounded-lg border-border w-[82px] h-[33px] text-sm mt-3"'>
+            <DialogClose
+              onClick={() => {
+                setShowFeedback(false);
+                navigate('/view-prices');
+              }}
+              className='bg-background border rounded-lg border-border w-[82px] h-[33px] text-sm mt-3"'
+            >
               Done
             </DialogClose>
           </div>

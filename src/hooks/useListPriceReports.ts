@@ -8,6 +8,7 @@ export default function useListPriceReports() {
   const { data, isLoading, isFetching, refetch, error } = useQuery({
     queryKey: ['price-reports'],
     queryFn: listPriceReports,
+    staleTime: 0,
   });
 
   return {
