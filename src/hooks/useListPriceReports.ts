@@ -4,10 +4,10 @@ import { AxiosError } from 'axios';
 import { listPriceReports } from '@/api/reports';
 import { parseError } from '@/libs/error';
 
-export default function useListPriceReports() {
+export default function useListPriceReports(params?: { sortBy: 'desc' | 'asc'; include: string }) {
   const { data, isLoading, isFetching, refetch, error } = useQuery({
-    queryKey: ['price-reports'],
-    queryFn: listPriceReports,
+    queryKey: ['price-reports', params],
+    queryFn: () => listPriceReports(params),
     staleTime: 0,
   });
 

@@ -5,7 +5,7 @@ import PriceCard from './components/PriceCard';
 import useListPriceReports from '../../hooks/useListPriceReports';
 
 export default function Entry() {
-  const { data, isLoading, error, listReports } = useListPriceReports();
+  const { data, isLoading, error, listReports } = useListPriceReports({ include: 'products', sortBy: 'desc' });
 
   return (
     <div className="bg-[#f9fafb]">

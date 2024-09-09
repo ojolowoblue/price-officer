@@ -16,7 +16,7 @@ const sortOptions = [
 ];
 
 export default function ViewPrices() {
-  const { data, isLoading, error, listReports } = useListPriceReports();
+  const { data, isLoading, error, listReports } = useListPriceReports({ include: 'products', sortBy: 'desc' });
 
   return (
     <div className="bg-[#f9fafb] min-h-[90vh]">

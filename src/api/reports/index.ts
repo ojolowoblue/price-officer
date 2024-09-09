@@ -1,9 +1,9 @@
 import request from '../request';
 import { CreatePriceReportPayload, GetPriceReportResponse, ListPriceReportsResponse } from './types';
 
-export const listPriceReports = () => {
+export const listPriceReports = (params?: { sortBy: 'desc' | 'asc'; include: string }) => {
   return request.get<ListPriceReportsResponse>(`/price-reports`, {
-    params: { sortBy: 'desc', include: 'products' },
+    params,
   });
 };
 
