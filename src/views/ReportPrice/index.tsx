@@ -1,3 +1,9 @@
+import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import * as Yup from 'yup';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import Input from '@/components/ui/Input';
 import Label from '@/components/ui/Label';
 import {
@@ -7,7 +13,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/Dialog';
 import {
   Select,
@@ -21,11 +26,52 @@ import {
 import Switch from '@/components/ui/Switch';
 
 import ImgIcon from '@/assets/img-icon.png';
-import { productNames, units } from './utils';
+import { units } from './utils';
+import useListProducts from './hooks/useListProducts';
+import AutoComplete from '@/components/ui/AutoComplete';
+import useDebounce from '@/hooks/useDebounce';
+import useCreateProduct from './hooks/useCreateProduct';
+import AmountInput from '@/components/ui/AmountInput';
+import AddressInput from '@/components/ui/AddressInput';
+import Button from '@/components/ui/Button';
+import useCreateReport from './hooks/useCreateReport';
+
+const schema = Yup.object({
+  product: Yup.string().required(),
+  unit: Yup.string().required(),
+  price: Yup.number().required(),
+  location: Yup.string().required(),
+  images: Yup.array(Yup.string()),
+  description: Yup.string().required(),
+});
 
 export default function ReportPrice() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [newProduct, setNewProduct] = useState('');
+  const [currentLocation, setCurrentLocation] = useState(false);
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 1000);
+
+  const queryClient = useQueryClient();
+
+  const { products = [] } = useListProducts({ name: debouncedSearchTerm || undefined });
+  const { createProduct } = useCreateProduct();
+  const { createReport, isLoading } = useCreateReport();
+
+  const { control, setValue, register, handleSubmit } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (payload: Yup.InferType<typeof schema>) => {
+    createReport({
+      ...payload,
+      images: [],
+      currency: 'NGN',
+    });
+  };
+
   return (
-    <div className="app-x-spacing py-4">
+    <form className="app-x-spacing py-4" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-2 mb-8">
         <h2 className="text-base font-medium text-foreground">Report Price</h2>
 
@@ -33,59 +79,109 @@ export default function ReportPrice() {
       </div>
 
       <div className="flex flex-col gap-6 md:grid md:grid-cols-2">
-        <Select>
-          <SelectGroup>
-            <SelectLabel>Product</SelectLabel>
-            <SelectTrigger>
-              <SelectValue placeholder="Choose product name" />
-            </SelectTrigger>
-            <SelectContent>
-              {productNames.map((prod) => (
-                <SelectItem key={prod.name} value={prod.name}>
-                  {prod.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </SelectGroup>
-        </Select>
+        <Controller
+          control={control}
+          name="product"
+          render={({ field }) => (
+            <AutoComplete
+              label="Select Product"
+              value={field.value}
+              onInputValueChange={(v) => {
+                setSearchTerm(v);
+              }}
+              onSetValue={(v) => {
+                setValue('product', v, { shouldDirty: true });
+                setValue('unit', products.find((p) => p.id === v)?.unit ?? '', { shouldDirty: true });
+              }}
+              onCreateNewOption={(val) => {
+                setNewProduct(val);
+                setValue('unit', '');
+              }}
+              options={products.map((prod) => ({ label: prod.name, value: prod.id }))}
+            />
+          )}
+        />
 
-        <Select>
-          <SelectGroup>
-            <SelectLabel>Unit/Quantity</SelectLabel>
-            <SelectTrigger>
-              <SelectValue placeholder="Select Unit" />
-            </SelectTrigger>
-            <SelectContent>
-              {units.map((unit) => (
-                <SelectItem key={unit} value={unit}>
-                  {unit}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </SelectGroup>
-        </Select>
+        {newProduct && (
+          <Controller
+            control={control}
+            name="unit"
+            render={({ field }) => (
+              <Select
+                value={field.value}
+                onValueChange={(unit) => {
+                  setValue('unit', unit, { shouldDirty: true });
+                  createProduct(
+                    {
+                      category: '66da36f010bc481868f18d03',
+                      description: newProduct,
+                      images: [],
+                      name: newProduct,
+                      unit,
+                    },
+                    {
+                      onSuccess(data) {
+                        queryClient.invalidateQueries({ queryKey: ['products'] });
+                        setSearchTerm('');
+                        setValue('product', data.data.id);
+                      },
+                    },
+                  );
+                }}
+              >
+                <SelectGroup>
+                  <SelectLabel>Unit/Quantity</SelectLabel>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Unit" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {units.map((unit) => (
+                      <SelectItem key={unit} value={unit}>
+                        {unit}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </SelectGroup>
+              </Select>
+            )}
+          />
+        )}
 
-        <Input label="Price" placeholder="Enter price" />
+        <Controller
+          control={control}
+          name="price"
+          render={({ field }) => (
+            <AmountInput
+              value={field.value}
+              label="Price"
+              placeholder="Enter price"
+              onValueChange={(v) => setValue('price', v, { shouldDirty: true })}
+            />
+          )}
+        />
 
-        <Select>
-          <SelectGroup>
-            <SelectLabel className="mb-1">Location</SelectLabel>
-            <div className="mb-2.5 flex items-center justify-between">
-              <p className="text-muted text-sm">Use my current location as shop location</p>
-              <Switch />
+        <Controller
+          control={control}
+          name="location"
+          render={({ field }) => (
+            <div>
+              <div className="mb-2.5 flex items-center justify-between">
+                <p className="text-muted text-sm">Use my current location as shop location</p>
+                <Switch onCheckedChange={(v) => setCurrentLocation(v)} />
+              </div>
+
+              <Label className="mb-2.5">Shop Location</Label>
+
+              <AddressInput
+                value={field.value}
+                useCurrentLocation={currentLocation}
+                onChange={(v) => setValue('location', v, { shouldDirty: true })}
+              />
             </div>
-            <SelectTrigger>
-              <SelectValue placeholder="Select location" className="placeholder:text-placeholder" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="light">Light</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-              <SelectItem value="system">System</SelectItem>
-            </SelectContent>
-          </SelectGroup>
-        </Select>
+          )}
+        />
 
-        <Input label="Shop Name / Address" placeholder="Enter shop details" />
+        <Input label="Shop Name / Details" placeholder="Enter shop details" {...register('description')} />
       </div>
 
       <div className="mb-3.5 mt-4">
@@ -102,16 +198,16 @@ export default function ReportPrice() {
         </div>
       </div>
 
-      <Dialog>
-        <DialogTrigger className="w-full">
-          <div
-            role="button"
-            className="flex items-center justify-center h-12 px-6 bg-primary text-white text-base rounded-lg w-full"
-          >
-            Report Price
-          </div>
-        </DialogTrigger>
+      <Button
+        loading={isLoading}
+        type="submit"
+        fullWidth
+        className="flex items-center justify-center h-12 px-6 bg-primary text-white text-base rounded-lg w-full"
+      >
+        Report Price
+      </Button>
 
+      <Dialog>
         <DialogContent className="max-w-[335px]">
           <DialogHeader className="flex flex-col items-center">
             <DialogTitle className="mb-5 text-center">
@@ -130,6 +226,6 @@ export default function ReportPrice() {
           </div>
         </DialogContent>
       </Dialog>
-    </div>
+    </form>
   );
 }

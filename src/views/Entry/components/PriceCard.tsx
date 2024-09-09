@@ -25,8 +25,9 @@ export default function PriceCard(props: PriceReport) {
 
       <div className="flex flex-col justify-between">
         <div className="flex flex-col gap-1">
+          <p className="text-xs leading-[14px] text-[#667085] truncate max-w-[200px] block">{location}</p>
           <p className="text-xs leading-[14px] text-[#667085]">
-            {location} | {formatDateStr(updatedAt, 'DD MMM YYYY [at] hh:mm a')}
+            {formatDateStr(updatedAt, 'DD MMM YYYY [at] hh:mm a')}
           </p>
 
           <p className="text-sm text-[#1F2937]">{description}</p>

@@ -1,3 +1,5 @@
+import { UserProfile } from './user';
+
 export interface PriceReport {
   product: string;
   unit: string;
@@ -11,7 +13,7 @@ export interface PriceReport {
     dislikes: number;
     comments: number;
   };
-  user: string;
+  user: UserProfile;
   createdBy: string;
   createdAt: string;
   updatedAt: string;
