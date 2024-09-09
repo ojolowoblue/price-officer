@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import {
   Sheet,
@@ -15,6 +15,7 @@ import { appLinks } from '@/constants/appLinks';
 
 export default function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <header className="h-[72px] z-[200] sticky top-0 bg-background w-full flex items-center justify-between app-x-spacing max-w-full border-b border-divider">
@@ -61,12 +62,14 @@ export default function Header() {
         </SheetContent>
       </Sheet>
 
-      <button
-        onClick={() => navigate('/report-price')}
-        className="h-8 w-[102px] bg-primary-light rounded-lg text-sm text-primary"
-      >
-        Report Price
-      </button>
+      {location.pathname.replace('/', '') !== 'report-price' && (
+        <button
+          onClick={() => navigate('/report-price')}
+          className="h-8 w-[102px] bg-primary-light rounded-lg text-sm text-primary"
+        >
+          Report Price
+        </button>
+      )}
     </header>
   );
 }

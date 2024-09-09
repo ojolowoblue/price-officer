@@ -17,7 +17,6 @@ import useGetPriceReport from './hooks/useGetPriceReport';
 import AppLoader from '@/components/AppLoader';
 import { formatMoney } from '@/libs/money';
 import { formatDateStr } from '@/libs/date';
-import useGetUser from '@/hooks/useGetUser';
 
 export default function PriceDetails() {
   const navigate = useNavigate();
@@ -25,8 +24,6 @@ export default function PriceDetails() {
   const { id } = useParams<{ id: string }>();
 
   const { data, isLoading, error, getReport } = useGetPriceReport(id ?? '');
-
-  const { user } = useGetUser(data?.user ?? '');
 
   return (
     <div className="py-5 flex flex-col min-h-screen bg-[#F9FAFB]">
@@ -49,7 +46,7 @@ export default function PriceDetails() {
           <>
             <div className="flex flex-col gap-[18px] mb-[18px] app-x-spacing">
               <div>
-                {user && <h3 className="text-sm font-medium pb-1 text-foreground">{user.name ?? '...'}</h3>}
+                {<h3 className="text-sm font-medium pb-1 text-foreground">{data.user.name}</h3>}
                 <p className="text-xs text-muted">
                   {data.location} | {formatDateStr(new Date().toISOString(), 'MMM DD, YYYY [at] hh:mma')}
                 </p>
