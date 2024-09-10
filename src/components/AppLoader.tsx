@@ -46,7 +46,7 @@ export default function AppLoader(props: PropsWithChildren<Props>) {
     </div>
   ) : loading ? (
     <div
-      className={cn('min-h-[85vh] w-full flex justify-center items-start', {
+      className={cn('min-h-[85vh] w-full flex justify-center items-center', {
         'min-h-max': notPage,
       })}
     >

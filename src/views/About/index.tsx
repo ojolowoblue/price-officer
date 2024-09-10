@@ -59,7 +59,7 @@ export default function About() {
       <div className="flex flex-col gap-4">
         <div className="flex gap-2 items-center">
           <img src="/icons/ig.svg" />
-          <p>Pricepolice</p>
+          <p>priceofficer</p>
         </div>
 
         <div className="flex gap-2 items-center">
@@ -69,12 +69,12 @@ export default function About() {
 
         <div className="flex gap-2 items-center">
           <img src="/icons/x.svg" />
-          <p>pricepolice</p>
+          <p>priceofficer</p>
         </div>
 
         <div className="flex gap-2 items-center">
           <img src="/icons/mail.svg" />
-          <p>support@pricepolice.ng</p>
+          <p>support@priceofficer.com</p>
         </div>
       </div>
     </div>
