@@ -12,7 +12,7 @@ export default function Entry() {
   });
 
   return (
-    <div className="bg-[#f9fafb]">
+    <div>
       <div className="bg-primary app-x-spacing py-8 flex flex-col items-center gap-5">
         <h2 className="text-[18px]  leading-[28px] text-white">Find the Best Prices Around</h2>
 
@@ -26,7 +26,7 @@ export default function Entry() {
       <div className="app-x-spacing pb-5 flex flex-col gap-4">
         <h3 className="text-base font-medium text-foreground leading-5">Best Prices</h3>
 
-        <AppLoader loading={isLoading} errorMessage={error} onRetry={listReports}>
+        <AppLoader notPage loading={isLoading} errorMessage={error} onRetry={listReports}>
           {data && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xl:grid-cols-3">
               {data.results.map((p) => (
