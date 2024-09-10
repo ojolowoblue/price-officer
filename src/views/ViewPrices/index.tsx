@@ -46,7 +46,7 @@ export default function ViewPrices() {
           </Popover>
         </div>
 
-        <AppLoader loading={isLoading} errorMessage={error} onRetry={listReports}>
+        <AppLoader notPage loading={isLoading} errorMessage={error} onRetry={listReports}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xl:grid-cols-3">
             {data?.results.map((p) => (
               <PriceCard {...p} />
