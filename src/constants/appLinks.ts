@@ -3,5 +3,5 @@ export const appLinks = [
   { name: 'View Prices', path: '/view-prices' },
   { name: 'Report Price', path: '/report-price' },
   // { name: 'Profile', path: '/profile' },
-  { name: 'About Price Police', path: '/about' },
+  { name: 'About Price Officer', path: '/about' },
 ];
