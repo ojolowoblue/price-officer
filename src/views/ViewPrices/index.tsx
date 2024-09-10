@@ -2,9 +2,9 @@ import { ChevronDown } from 'lucide-react';
 
 import SearchBox from '@/components/ui/Search';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
-import PriceCard from './components/PriceCard';
-import useListPriceReports from '../../hooks/useListPriceReports';
 import AppLoader from '@/components/AppLoader';
+import useListPriceReports from '@/hooks/useListPriceReports';
+import PriceCard from '@/components/PriceCard';
 
 const sortOptions = [
   'Default sorting',
@@ -16,7 +16,11 @@ const sortOptions = [
 ];
 
 export default function ViewPrices() {
-  const { data, isLoading, error, listReports } = useListPriceReports({ include: 'products', sortBy: 'desc' });
+  const { data, isLoading, error, listReports } = useListPriceReports({
+    include: 'products',
+    sortBy: 'desc',
+    limit: 20,
+  });
 
   return (
     <div className="bg-[#f9fafb] min-h-[90vh]">

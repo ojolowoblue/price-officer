@@ -1,11 +1,15 @@
 import SearchBox from '@/components/ui/Search';
 
 import AppLoader from '@/components/AppLoader';
-import PriceCard from './components/PriceCard';
-import useListPriceReports from '../../hooks/useListPriceReports';
+import PriceCard from '@/components/PriceCard';
+import useListPriceReports from '@/hooks/useListPriceReports';
 
 export default function Entry() {
-  const { data, isLoading, error, listReports } = useListPriceReports({ include: 'products', sortBy: 'desc' });
+  const { data, isLoading, error, listReports } = useListPriceReports({
+    include: 'products',
+    sortBy: 'desc',
+    limit: 20,
+  });
 
   return (
     <div className="bg-[#f9fafb]">

@@ -37,7 +37,7 @@ const AddressAutoComplete = ({
   useEffect(() => {
     setInputValue(defaultInputValue ?? '');
     setSelected(options.find((opt) => opt.value === defaultInputValue));
-  }, [defaultInputValue, options]);
+  }, [defaultInputValue]);
 
   const onInputChange = (v: string) => {
     setInputValue(v);

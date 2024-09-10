@@ -1,7 +1,12 @@
 import request from '../request';
-import { CreatePriceReportPayload, GetPriceReportResponse, ListPriceReportsResponse } from './types';
+import {
+  CreatePriceReportPayload,
+  GetPriceReportResponse,
+  ListPriceReportParams,
+  ListPriceReportsResponse,
+} from './types';
 
-export const listPriceReports = (params?: { sortBy: 'desc' | 'asc'; include: string }) => {
+export const listPriceReports = (params?: ListPriceReportParams) => {
   return request.get<ListPriceReportsResponse>(`/price-reports`, {
     params,
   });
@@ -9,7 +14,7 @@ export const listPriceReports = (params?: { sortBy: 'desc' | 'asc'; include: str
 
 export const getPriceReport = (id: string) => {
   return request.get<GetPriceReportResponse>(`/price-reports/${id}`, {
-    params: { include: 'user' },
+    params: { include: 'user, product' },
   });
 };
 

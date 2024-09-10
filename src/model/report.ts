@@ -1,7 +1,8 @@
+import Product from './product';
 import { UserProfile } from './user';
 
 export interface PriceReport {
-  product: string;
+  product: Product;
   unit: string;
   price: number;
   currency: string;

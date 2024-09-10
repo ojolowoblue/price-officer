@@ -3,8 +3,9 @@ import { AxiosError } from 'axios';
 
 import { listPriceReports } from '@/api/reports';
 import { parseError } from '@/libs/error';
+import { ListPriceReportParams } from '@/api/reports/types';
 
-export default function useListPriceReports(params?: { sortBy: 'desc' | 'asc'; include: string }) {
+export default function useListPriceReports(params?: ListPriceReportParams) {
   const { data, isLoading, isFetching, refetch, error } = useQuery({
     queryKey: ['price-reports', params],
     queryFn: () => listPriceReports(params),

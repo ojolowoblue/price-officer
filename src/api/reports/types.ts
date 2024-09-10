@@ -14,3 +14,10 @@ export interface CreatePriceReportPayload {
   images: string[];
   description: string;
 }
+
+export interface ListPriceReportParams {
+  sortBy?: 'desc' | 'asc';
+  include?: string;
+  limit?: number;
+  product?: string;
+}
