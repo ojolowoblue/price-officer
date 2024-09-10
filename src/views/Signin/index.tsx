@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
@@ -65,6 +65,14 @@ export default function Signin() {
           </Button>
         </div>
       </form>
+
+      <p className="text-sm my-4">
+        Don't have an account?{' '}
+        <Link to="/auth/signup" className="text-primary">
+          {' '}
+          Sign up
+        </Link>
+      </p>
     </div>
   );
 }
