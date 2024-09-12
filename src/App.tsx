@@ -5,6 +5,7 @@ import { Loader2Icon } from 'lucide-react';
 import router from './router';
 import QueryProvider from './providers/QueryProvider';
 import TokenProvider from './providers/TokenProvider';
+import { Toaster } from './providers/ToastProviders';
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
           <RouterProvider router={router} />
         </QueryProvider>
       </TokenProvider>
+
+      <Toaster />
     </Suspense>
   );
 }

@@ -3,7 +3,7 @@ import { CreateProductPayload, CreateProductResponse, ListProductParams, ListPro
 
 export const listProducts = (params?: ListProductParams) => {
   return request.get<ListProductsResponse>('/products', {
-    params,
+    params: { ...params, limit: 50 },
   });
 };
 

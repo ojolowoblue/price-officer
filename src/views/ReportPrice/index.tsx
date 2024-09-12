@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
@@ -15,20 +16,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/Dialog';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/Select';
+
 import Switch from '@/components/ui/Switch';
 
-import ImgIcon from '@/assets/img-icon.png';
-import { units } from './utils';
-import useListProducts from './hooks/useListProducts';
+// import ImgIcon from '@/assets/img-icon.png';
+import useListProducts, { useListUnits } from './hooks/useListProducts';
 import AutoComplete from '@/components/ui/AutoComplete';
 import useDebounce from '@/hooks/useDebounce';
 import useCreateProduct from './hooks/useCreateProduct';
@@ -36,6 +28,8 @@ import AmountInput from '@/components/ui/AmountInput';
 import AddressInput from '@/components/ui/AddressInput';
 import Button from '@/components/ui/Button';
 import useCreateReport from './hooks/useCreateReport';
+import { parseError } from '@/libs/error';
+import { useToast } from '@/hooks/useToast';
 
 const schema = Yup.object({
   product: Yup.string().required(),
@@ -49,22 +43,26 @@ const schema = Yup.object({
 export default function ReportPrice() {
   const [searchTerm, setSearchTerm] = useState('');
   const [newProduct, setNewProduct] = useState('');
+  const [newUnit, setNewUnit] = useState('');
   const [showFeedback, setShowFeedback] = useState(false);
   const [currentLocation, setCurrentLocation] = useState(false);
 
   const navigate = useNavigate();
-
+  const { toast } = useToast();
   const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
   const queryClient = useQueryClient();
 
   const { products = [] } = useListProducts({ name: debouncedSearchTerm || undefined });
+  const { units = [] } = useListUnits();
   const { createProduct } = useCreateProduct();
   const { createReport, isLoading } = useCreateReport();
 
-  const { control, setValue, register, handleSubmit } = useForm({
+  const { control, setValue, register, handleSubmit, watch } = useForm({
     resolver: yupResolver(schema),
   });
+
+  const product = watch('product');
 
   const onSubmit = (payload: Yup.InferType<typeof schema>) => {
     createReport(
@@ -77,6 +75,15 @@ export default function ReportPrice() {
         onSuccess() {
           queryClient.invalidateQueries({ queryKey: ['price-reports'] });
           setShowFeedback(true);
+        },
+        onError(error) {
+          const errMsg = error ? parseError(error as AxiosError) : undefined;
+
+          toast({
+            variant: 'destructive',
+            title: 'Uh oh! Something went wrong.',
+            description: errMsg,
+          });
         },
       },
     );
@@ -103,58 +110,77 @@ export default function ReportPrice() {
               }}
               onSetValue={(v) => {
                 setValue('product', v, { shouldDirty: true });
-                setValue('unit', products.find((p) => p.id === v)?.unit ?? '', { shouldDirty: true });
               }}
               onCreateNewOption={(val) => {
                 setNewProduct(val);
-                setValue('unit', '');
               }}
               options={products.map((prod) => ({ label: prod.name, value: prod.id }))}
             />
           )}
         />
 
-        {newProduct && (
+        {(newProduct || product) && (
           <Controller
             control={control}
             name="unit"
             render={({ field }) => (
-              <Select
-                value={field.value}
-                onValueChange={(unit) => {
-                  setValue('unit', unit, { shouldDirty: true });
-                  createProduct(
-                    {
-                      category: '66da36f010bc481868f18d03',
-                      description: newProduct,
-                      images: [],
-                      name: newProduct,
-                      unit,
-                    },
-                    {
-                      onSuccess(data) {
-                        queryClient.invalidateQueries({ queryKey: ['products'] });
-                        setSearchTerm('');
-                        setValue('product', data.data.id);
-                      },
-                    },
-                  );
-                }}
-              >
-                <SelectGroup>
-                  <SelectLabel>Unit/Quantity</SelectLabel>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Unit" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {units.map((unit) => (
-                      <SelectItem key={unit} value={unit}>
-                        {unit}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </SelectGroup>
-              </Select>
+              <>
+                <AutoComplete
+                  label="Select unit"
+                  value={field.value}
+                  onInputValueChange={(v) => {
+                    setNewUnit(v);
+                  }}
+                  onSetValue={(unit) => {
+                    setValue('unit', unit, { shouldDirty: true });
+
+                    if (newProduct) {
+                      createProduct(
+                        {
+                          category: '66da36f010bc481868f18d03',
+                          description: newProduct,
+                          images: [],
+                          name: newProduct,
+                          unit,
+                        },
+                        {
+                          onSuccess(data) {
+                            queryClient.invalidateQueries({ queryKey: ['products'] });
+                            setValue('product', data.data.id);
+                          },
+                        },
+                      );
+                    }
+                  }}
+                  onCreateNewOption={(unit) => {
+                    setValue('unit', unit);
+
+                    if (newProduct) {
+                      createProduct(
+                        {
+                          category: '66da36f010bc481868f18d03',
+                          description: newProduct,
+                          images: [],
+                          name: newProduct,
+                          unit,
+                        },
+                        {
+                          onSuccess(data) {
+                            queryClient.invalidateQueries({ queryKey: ['products'] });
+                            setValue('product', data.data.id);
+                          },
+                        },
+                      );
+                    }
+                  }}
+                  options={Array.from(new Set(units.map((prod) => prod.unit)))
+                    .map((unit) => ({
+                      label: unit,
+                      value: unit,
+                    }))
+                    .filter((u) => u.value.includes(newUnit))}
+                />
+              </>
             )}
           />
         )}
@@ -196,7 +222,7 @@ export default function ReportPrice() {
         <Input label="Shop Name / Details" placeholder="Enter shop details" {...register('description')} />
       </div>
 
-      <div className="mb-3.5 mt-4">
+      {/* <div className="mb-3.5 mt-4">
         <Label className="mb-2.5">
           Product Image <span className="text-muted text-xs">(Optional)</span>
         </Label>
@@ -208,13 +234,13 @@ export default function ReportPrice() {
 
           <p className="text-placeholder text-sm">Maximum size: 50MB</p>
         </div>
-      </div>
+      </div> */}
 
       <Button
         loading={isLoading}
         type="submit"
         fullWidth
-        className="flex items-center justify-center h-12 px-6 bg-primary text-white text-base rounded-lg w-full"
+        className="flex my-4 items-center justify-center h-12 px-6 bg-primary text-white text-base rounded-lg w-full"
       >
         Report Price
       </Button>

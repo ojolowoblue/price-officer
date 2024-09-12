@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,6 +9,8 @@ import Input from '@/components/ui/Input';
 import useSignup from './hooks/useSignup';
 import { generateUniqueIdentifier } from '@/helpers';
 import { useTokenDispatch } from '@/providers/TokenProvider';
+import { parseError } from '@/libs/error';
+import { useToast } from '@/hooks/useToast';
 
 const schema = Yup.object({
   name: Yup.string().required(),
@@ -21,6 +24,7 @@ export default function Signup() {
   const { signup, isLoading } = useSignup();
   const dispatch = useTokenDispatch();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const {
     handleSubmit,
@@ -44,6 +48,15 @@ export default function Signup() {
           });
 
           navigate('/view-prices');
+        },
+        onError(error) {
+          const errMsg = error ? parseError(error as AxiosError) : undefined;
+
+          toast({
+            variant: 'destructive',
+            title: 'Uh oh! Something went wrong.',
+            description: errMsg,
+          });
         },
       },
     );

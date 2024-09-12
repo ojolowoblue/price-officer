@@ -138,7 +138,7 @@ const AutoComplete = ({
                         setOpen(false);
                       }}
                       className={cn(
-                        'relative flex cursor-pointer select-none items-start text-left rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-slate-100 aria-selected:text-slate-900 data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 w-full z-50 gap-2 hover:bg-slate-100',
+                        'relative flex cursor-pointer select-none items-start text-left rounded-sm px-2 py-3 text-sm outline-none aria-selected:bg-slate-100 aria-selected:text-slate-900 data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 w-full z-50 gap-2 hover:bg-slate-100',
                         {
                           'pl-8': !isSelected,
                         },
@@ -161,7 +161,7 @@ const AutoComplete = ({
                     setOpen(false);
                   }}
                   className={cn(
-                    'relative flex justify-between cursor-pointer select-none items-start text-left rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-slate-100 aria-selected:text-slate-900 data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 w-full z-50 gap-2 hover:bg-slate-100',
+                    'relative flex justify-between cursor-pointer select-none items-start text-left rounded-sm px-2 py-3 text-sm outline-none aria-selected:bg-slate-100 aria-selected:text-slate-900 data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 w-full z-50 gap-2 hover:bg-slate-100',
                   )}
                 >
                   <div className="flex items-center gap-3 px-4">{inputValue}</div>

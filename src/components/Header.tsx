@@ -18,7 +18,7 @@ export default function Header() {
   const location = useLocation();
 
   return (
-    <header className="h-[72px] z-[200] sticky top-0 bg-background w-full flex items-center justify-between app-x-spacing max-w-full border-b border-divider">
+    <header className="h-[72px] z-50 sticky top-0 bg-background w-full flex items-center justify-between app-x-spacing max-w-full border-b border-divider">
       <Sheet>
         <div className="flex gap-3 items-center">
           <SheetTrigger>
