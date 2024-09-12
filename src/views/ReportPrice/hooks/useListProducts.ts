@@ -18,3 +18,17 @@ export default function useListProducts(params?: ListProductParams) {
     listProducts: refetch,
   };
 }
+
+export function useListUnits() {
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ['units'],
+    queryFn: () => listProducts(),
+  });
+
+  return {
+    units: data?.data.results,
+    isLoading,
+    error: error ? parseError(error as AxiosError) : undefined,
+    listProducts: refetch,
+  };
+}
