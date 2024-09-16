@@ -21,7 +21,8 @@ export default function useListProducts(params?: ListProductParams) {
 
 export function useListUnits() {
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['units'],
+    queryKey: [1, 'units'],
+    staleTime: 0,
     queryFn: () => listProducts(),
   });
 

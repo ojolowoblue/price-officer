@@ -13,7 +13,7 @@ export type CreateProductResponse = Product;
 
 export interface CreateProductPayload {
   name: string;
-  unit: string;
+  unit: string[];
   images: string[];
   category: string;
   description: string;

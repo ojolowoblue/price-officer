@@ -30,6 +30,7 @@ import Button from '@/components/ui/Button';
 import useCreateReport from './hooks/useCreateReport';
 import { parseError } from '@/libs/error';
 import { useToast } from '@/hooks/useToast';
+import useUpdateProduct from './hooks/useUpdateProduct';
 
 const schema = Yup.object({
   product: Yup.string().required(),
@@ -56,6 +57,7 @@ export default function ReportPrice() {
   const { products = [] } = useListProducts({ name: debouncedSearchTerm || undefined });
   const { units = [] } = useListUnits();
   const { createProduct } = useCreateProduct();
+  const { updateProduct } = useUpdateProduct();
   const { createReport, isLoading } = useCreateReport();
 
   const { control, setValue, register, handleSubmit, watch } = useForm({
@@ -74,6 +76,7 @@ export default function ReportPrice() {
       {
         onSuccess() {
           queryClient.invalidateQueries({ queryKey: ['price-reports'] });
+
           setShowFeedback(true);
         },
         onError(error) {
@@ -109,6 +112,7 @@ export default function ReportPrice() {
                 setSearchTerm(v);
               }}
               onSetValue={(v) => {
+                setNewProduct('');
                 setValue('product', v, { shouldDirty: true });
               }}
               onCreateNewOption={(val) => {
@@ -141,7 +145,7 @@ export default function ReportPrice() {
                           description: newProduct,
                           images: [],
                           name: newProduct,
-                          unit,
+                          unit: [unit],
                         },
                         {
                           onSuccess(data) {
@@ -153,7 +157,27 @@ export default function ReportPrice() {
                     }
                   }}
                   onCreateNewOption={(unit) => {
-                    setValue('unit', unit);
+                    if (!newProduct) {
+                      setValue('unit', unit);
+
+                      const prod = units.find((p) => p.id === newProduct || p.id === product)!;
+
+                      updateProduct(
+                        {
+                          id: prod.id,
+                          payload: {
+                            unit: [...prod.unit, unit],
+                          },
+                        },
+                        {
+                          onSuccess(data) {
+                            queryClient.invalidateQueries({ queryKey: ['products'] });
+                            queryClient.invalidateQueries({ queryKey: ['units'] });
+                            setValue('product', data.data.id);
+                          },
+                        },
+                      );
+                    }
 
                     if (newProduct) {
                       createProduct(
@@ -162,7 +186,7 @@ export default function ReportPrice() {
                           description: newProduct,
                           images: [],
                           name: newProduct,
-                          unit,
+                          unit: [unit],
                         },
                         {
                           onSuccess(data) {
@@ -173,11 +197,15 @@ export default function ReportPrice() {
                       );
                     }
                   }}
-                  options={Array.from(new Set(units.map((prod) => prod.unit)))
-                    .map((unit) => ({
-                      label: unit,
-                      value: unit,
-                    }))
+                  // options={Array.from(new Set(units.map((prod) => prod.unit).flat()))
+                  //   .map((unit) => ({
+                  //     label: unit,
+                  //     value: unit,
+                  //   }))
+                  //   .filter((u) => u.value.includes(newUnit))}
+
+                  options={Array.from(new Set(units.find((p) => p.id === newProduct || p.id === product)?.unit ?? []))
+                    .map((v) => ({ label: v, value: v }))
                     .filter((u) => u.value.includes(newUnit))}
                 />
               </>
