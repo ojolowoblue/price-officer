@@ -1,6 +1,6 @@
 export default interface Product {
   name: string;
-  unit: string;
+  unit: string[];
   images: string[];
   category: string;
   description: string;

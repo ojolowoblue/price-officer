@@ -10,3 +10,7 @@ export const listProducts = (params?: ListProductParams) => {
 export const createProduct = (payload: CreateProductPayload) => {
   return request.post<CreateProductResponse>('/products', payload);
 };
+
+export const updateProduct = ({ payload, id }: { payload: Partial<CreateProductPayload>; id: string }) => {
+  return request.patch<CreateProductResponse>(`/products/${id}`, payload);
+};
