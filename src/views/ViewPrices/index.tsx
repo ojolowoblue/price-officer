@@ -5,6 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover
 import AppLoader from '@/components/AppLoader';
 import useListPriceReports from '@/hooks/useListPriceReports';
 import PriceCard from '@/components/PriceCard';
+import { useUser } from '@/providers/UserProvider';
 
 const sortOptions = [
   'Default sorting',
@@ -21,6 +22,10 @@ export default function ViewPrices() {
     sortBy: 'desc',
     limit: 20,
   });
+
+  const user = useUser();
+
+  console.log(user);
 
   return (
     <div className="bg-[#f9fafb] min-h-[90vh]">
@@ -49,7 +54,7 @@ export default function ViewPrices() {
         <AppLoader notPage loading={isLoading} errorMessage={error} onRetry={listReports}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xl:grid-cols-3">
             {data?.results.map((p) => (
-              <PriceCard {...p} />
+              <PriceCard key={p.id} {...p} />
             ))}
           </div>
         </AppLoader>
