@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite';
-//@ts-expect-error
 import path from 'path';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
@@ -8,7 +7,6 @@ import svgr from 'vite-plugin-svgr';
 export default defineConfig({
   resolve: {
     alias: {
-      //@ts-expect-error
       '@': path.resolve(__dirname, './src'),
     },
   },
