@@ -75,7 +75,7 @@ export default function ReportPrice() {
       },
       {
         onSuccess() {
-          queryClient.invalidateQueries({ queryKey: ['price-reports'] });
+          queryClient.invalidateQueries({ queryKey: ['price-reports', {}, 1] });
 
           setShowFeedback(true);
         },

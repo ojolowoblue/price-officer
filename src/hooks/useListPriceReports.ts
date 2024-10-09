@@ -7,7 +7,7 @@ import { ListPriceReportParams } from '@/api/reports/types';
 
 export default function useListPriceReports(params?: ListPriceReportParams) {
   const { data, isLoading, isFetching, refetch, error } = useQuery({
-    queryKey: ['price-reports', params],
+    queryKey: ['price-reports', params, 1],
     queryFn: () => listPriceReports(params),
     staleTime: 0,
   });

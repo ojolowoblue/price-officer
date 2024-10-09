@@ -1,11 +1,14 @@
 import { Suspense } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { Loader2Icon } from 'lucide-react';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import router from './router';
 import QueryProvider from './providers/QueryProvider';
 import TokenProvider from './providers/TokenProvider';
 import { Toaster } from './providers/ToastProviders';
+import { GOOGLE_CLIENT_ID } from './constants/variables';
+import UserProvider from './providers/UserProvider';
 
 function App() {
   return (
@@ -16,11 +19,15 @@ function App() {
         </div>
       }
     >
-      <TokenProvider>
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
         <QueryProvider>
-          <RouterProvider router={router} />
+          <UserProvider>
+            <TokenProvider>
+              <RouterProvider router={router} />
+            </TokenProvider>
+          </UserProvider>
         </QueryProvider>
-      </TokenProvider>
+      </GoogleOAuthProvider>
 
       <Toaster />
     </Suspense>

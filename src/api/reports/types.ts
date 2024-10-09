@@ -20,4 +20,5 @@ export interface ListPriceReportParams {
   include?: string;
   limit?: number;
   product?: string;
+  name?: string;
 }

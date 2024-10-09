@@ -10,6 +10,8 @@ import { useTokenDispatch } from '@/providers/TokenProvider';
 import useSignin from './hooks/useSignin';
 import { parseError } from '@/libs/error';
 import { useToast } from '@/hooks/useToast';
+import GoogleSignin from '@/components/ui/GoogleLogin';
+import { useUserDispatch } from '@/providers/UserProvider';
 
 const schema = Yup.object({
   email: Yup.string().email().required(),
@@ -19,6 +21,7 @@ const schema = Yup.object({
 export default function Signin() {
   const { signin, isLoading } = useSignin();
   const dispatch = useTokenDispatch();
+  const dispatchUser = useUserDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -35,9 +38,10 @@ export default function Signin() {
       onSuccess(data) {
         dispatch({
           type: 'SET_TOKENS',
-          payload: { access_token: data.data.tokens.access.token },
+          payload: { access_token: data.data.tokens.access.token, refresh_token: data.data.tokens.refresh.token },
         });
 
+        dispatchUser({ type: 'SET_USER', payload: data.data.user });
         navigate('/view-prices');
       },
       onError(error) {
@@ -86,6 +90,8 @@ export default function Signin() {
           Sign up
         </Link>
       </p>
+
+      <GoogleSignin />
     </div>
   );
 }
