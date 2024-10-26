@@ -11,6 +11,7 @@ import { generateUniqueIdentifier } from '@/helpers';
 import { useTokenDispatch } from '@/providers/TokenProvider';
 import { parseError } from '@/libs/error';
 import { useToast } from '@/hooks/useToast';
+import GoogleSignin from '@/components/ui/GoogleLogin';
 
 const schema = Yup.object({
   name: Yup.string().required(),
@@ -64,7 +65,16 @@ export default function Signup() {
 
   return (
     <div className="p-5 flex flex-col min-h-screen bg-white">
-      <h1 className="text-2xl mb-10">Signup to create an account</h1>
+      <h1 className="text-[16px] font-[500] mb-8">Sign up to create an account</h1>
+
+      <GoogleSignin text="signup_with" />
+
+      <div className="flex items-center w-full mt-8 mb-10">
+        <div className="border-t border-[#f3f3f3] flex-grow"></div>
+        <span className="mx-4 text-muted text-xs">Or</span>
+        <div className="border-t border-[#f3f3f3] flex-grow"></div>
+      </div>
+
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col lg:grid grid-cols-2 gap-4">
         <Input
           placeholder="Name"
@@ -103,18 +113,17 @@ export default function Signup() {
           errorMessage={errors.passwordConfirm?.message}
           {...register('passwordConfirm')}
         />
-        <div className="flex items-end">
-          <Button disabled={isLoading} loading={isLoading} fullWidth>
-            Submit
+        <div className="flex items-end mt-6">
+          <Button loading={isLoading} fullWidth>
+            Create Account
           </Button>
         </div>
       </form>
 
-      <p className="text-sm my-4">
+      <p className="text-sm my-5 text-center">
         Already have an account?{' '}
         <Link to="/auth/signin" className="text-primary">
-          {' '}
-          Sign in
+          Log in
         </Link>
       </p>
     </div>

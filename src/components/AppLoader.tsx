@@ -30,7 +30,7 @@ export default function AppLoader(props: PropsWithChildren<Props>) {
   const networkError = isNetWorkError(errorMessage);
 
   return errorMessage ? (
-    <div className="min-h-[85vh] w-full flex justify-center items-center">
+    <div className="min-h-[85vh] w-full flex justify-center items-start pt-10">
       <div className="max-w-max flex flex-col justify-center items-center">
         <div>
           {(title || networkError?.title) && (

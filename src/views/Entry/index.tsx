@@ -1,43 +1,49 @@
 import { useState } from 'react';
-import SearchBox from '@/components/ui/Search';
 
 import AppLoader from '@/components/AppLoader';
 import PriceCard from '@/components/PriceCard';
 import useListPriceReports from '@/hooks/useListPriceReports';
 import useDebounce from '@/hooks/useDebounce';
-import { useUser } from '@/providers/UserProvider';
+import AutoComplete from '@/components/ui/AutoComplete';
+import useListProducts from '../ReportPrice/hooks/useListProducts';
+import EmptyState from '@/components/EmptyState';
 
 export default function Entry() {
   const [searchTerm, setSearchTerm] = useState<string | undefined>();
+  const [productId, setProductId] = useState<string | undefined>();
 
-  const debouncedQuery = useDebounce(searchTerm, 2000);
+  const debouncedQuery = useDebounce(searchTerm, 1000);
 
-  const user = useUser();
+  const { products = [] } = useListProducts({ name: debouncedQuery || undefined });
+
   const { data, isLoading, error, listReports } = useListPriceReports({
-    include: 'products',
-    sortBy: 'desc',
-    product: debouncedQuery,
-    name: debouncedQuery,
+    include: 'product',
+    sortBy: 'updatedAt:desc',
+    product: productId,
     limit: 20,
   });
-
-  console.log(user);
 
   return (
     <div>
       <div className="bg-primary app-x-spacing py-8 flex flex-col items-center gap-5">
         <h2 className="text-[18px]  leading-[28px] text-white">Find the Best Prices Around</h2>
 
-        <SearchBox
+        <AutoComplete
+          className="w-full sm:w-[500px]"
+          placeholder="Search by product"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value || undefined)}
-          placeholder="Search Items"
-          className="sm:max-w-[500px]"
+          onInputValueChange={(v) => {
+            setSearchTerm(v);
+          }}
+          onSetValue={(v) => {
+            setProductId(v);
+          }}
+          options={products.map((prod) => ({ label: prod.name, value: prod.id }))}
         />
       </div>
 
-      <div className="py-5 app-x-spacing xl:py-10">
-        <div className="bg-[#fee1dd] pl-4 h-[128px] overflow-hidden rounded-[12px] flex items-center justify-between">
+      <div className="py-5 app-x-spacing xl:py-10 flex justify-center">
+        <div className="bg-[#fee1dd] max-w-[500px] pl-4 h-[128px] overflow-hidden rounded-[12px] flex items-center justify-between">
           <div>
             <h1 className="max-w-[200px] text-base leading-[120%] font-semibold">
               Place Adverts for your business here
@@ -67,6 +73,8 @@ export default function Entry() {
               ))}
             </div>
           )}
+
+          {!data?.results.length && <EmptyState title="No data found" />}
         </AppLoader>
       </div>
     </div>

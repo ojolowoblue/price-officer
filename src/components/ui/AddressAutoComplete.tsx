@@ -1,4 +1,4 @@
-import { Check, Info, Loader2Icon } from 'lucide-react';
+import { Check, Info, Loader2Icon, PlusCircle } from 'lucide-react';
 import { Command as CommandPrimitive } from 'cmdk';
 import { useState, useRef, useCallback, type KeyboardEvent, useEffect } from 'react';
 
@@ -192,9 +192,11 @@ const AddressAutoComplete = ({
                   'relative flex cursor-pointer select-none items-center text-left rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-slate-100 aria-selected:text-slate-900 data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 w-full z-50 gap-2 hover:bg-slate-100',
                 )}
               >
-                <Info className="w-4" />
+                {!inputValue && <Info className="w-4" />}
 
                 {inputValue || emptyMessage}
+
+                {inputValue && <PlusCircle className="w-4" />}
               </button>
             )}
           </CommandList>

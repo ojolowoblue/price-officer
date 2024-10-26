@@ -12,6 +12,7 @@ import { parseError } from '@/libs/error';
 import { useToast } from '@/hooks/useToast';
 import GoogleSignin from '@/components/ui/GoogleLogin';
 import { useUserDispatch } from '@/providers/UserProvider';
+import ForgetPassword from './components/ForgetPassword';
 
 const schema = Yup.object({
   email: Yup.string().email().required(),
@@ -58,8 +59,17 @@ export default function Signin() {
 
   return (
     <div className="p-5 flex flex-col min-h-screen bg-white">
-      <h1 className="text-2xl mb-10">Signin to your account</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col lg:grid grid-cols-2 gap-4">
+      <h1 className="text-[16px] font-[500] mb-8">Sign in to access your account</h1>
+
+      <GoogleSignin />
+
+      <div className="flex items-center w-full mt-8 mb-10">
+        <div className="border-t border-[#f3f3f3] flex-grow"></div>
+        <span className="mx-4 text-muted text-xs">Or</span>
+        <div className="border-t border-[#f3f3f3] flex-grow"></div>
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col lg:grid grid-cols-2 gap-5">
         <Input
           placeholder="Email"
           label="Email"
@@ -67,31 +77,33 @@ export default function Signin() {
           errorMessage={errors.email?.message}
           {...register('email')}
         />
-        <Input
-          type="password"
-          placeholder="*****"
-          label="Password"
-          error={!!errors.password}
-          errorMessage={errors.password?.message}
-          {...register('password')}
-        />
+
+        <div className="flex flex-col mb-4">
+          <Input
+            type="password"
+            placeholder="*****"
+            label="Password"
+            error={!!errors.password}
+            errorMessage={errors.password?.message}
+            {...register('password')}
+          />
+          <ForgetPassword />
+        </div>
 
         <div className="flex items-end">
           <Button disabled={isLoading} loading={isLoading} fullWidth>
-            Submit
+            Sign In
           </Button>
         </div>
       </form>
 
-      <p className="text-sm my-4">
+      <p className="text-sm text-center my-5">
         Don't have an account?{' '}
         <Link to="/auth/signup" className="text-primary">
           {' '}
           Sign up
         </Link>
       </p>
-
-      <GoogleSignin />
     </div>
   );
 }

@@ -17,6 +17,8 @@ type AutoCompleteProps = {
   onCreateNewOption?: (input: string) => void;
   onSetValue: (v: string) => void;
   value?: string;
+  placeholder?: string;
+  className?: string;
 };
 
 const AutoComplete = ({
@@ -27,6 +29,8 @@ const AutoComplete = ({
   isLoading = false,
   onInputValueChange,
   onCreateNewOption,
+  placeholder,
+  className,
 }: AutoCompleteProps) => {
   const textAreaRef = useRef<HTMLInputElement>(null);
 
@@ -103,19 +107,20 @@ const AutoComplete = ({
           }}
           onFocus={() => setOpen(true)}
           label={label}
+          placeholder={placeholder}
           autoComplete="off"
-          className="text-base"
+          className={cn('text-base minw-[300px]', className)}
         />
       </div>
 
       <div className="relative mt-1">
         <div
           className={cn(
-            'animate-in fade-in-0 zoom-in-95 absolute top-0 z-10 w-full rounded-xl bg-white outline-none',
+            'animate-in fade-in-0 zoom-in-95 absolute top-0 z-10 w-full max-w-[500px] shadow-sm rounded-xl bg-white outline-none',
             isOpen ? 'block' : 'hidden',
           )}
         >
-          <CommandList className="rounded-lg ring-1 ring-slate-200">
+          <CommandList className="rounded-lg ring-none ring-slate-200">
             {isLoading ? (
               <CommandPrimitive.Loading>
                 <div className="p-1">
