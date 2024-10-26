@@ -18,6 +18,7 @@ import AppLoader from '@/components/AppLoader';
 import { formatMoney, formatNumber } from '@/libs/money';
 import { formatDateStr } from '@/libs/date';
 import useListPriceReports from '@/hooks/useListPriceReports';
+import { capitalize } from '@/helpers';
 
 const nigerianFullNames = [
   'Chukwuemeka Obi',
@@ -52,7 +53,11 @@ export default function PriceDetails() {
 
   const { data, isLoading, error, getReport } = useGetPriceReport(id ?? '');
 
-  const { data: comparedReports } = useListPriceReports({ product: data?.product.id, include: 'product' });
+  const { data: comparedReports } = useListPriceReports({
+    product: data?.product.id,
+    include: 'product',
+    sortBy: 'updatedAt:desc',
+  });
 
   return (
     <div className="py-5 flex flex-col min-h-screen bg-[#F9FAFB]">
@@ -90,7 +95,9 @@ export default function PriceDetails() {
               </div>
 
               <div>
-                <p className="text-sm pb-1 text-foreground">{data.product.name}</p>
+                <p className="text-sm pb-1 text-foreground">
+                  {capitalize(data.product.name)} {data.unit}
+                </p>
                 <h3 className="text-xl text-foreground font-semibold">
                   {formatMoney(data.price, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </h3>

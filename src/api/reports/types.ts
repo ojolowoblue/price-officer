@@ -16,9 +16,10 @@ export interface CreatePriceReportPayload {
 }
 
 export interface ListPriceReportParams {
-  sortBy?: 'desc' | 'asc';
+  sortBy?: string;
   include?: string;
   limit?: number;
   product?: string;
   name?: string;
+  [key: string]: string | number | undefined;
 }

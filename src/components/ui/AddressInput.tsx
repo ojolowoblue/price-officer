@@ -57,7 +57,7 @@ export default function AddressInput({ placeholder, useCurrentLocation, value = 
   return (
     <AddressAutoComplete
       isLoading={isPlacePredictionsLoading}
-      emptyMessage="No Address found"
+      emptyMessage="No Address"
       defaultInputValue={value}
       onInputValueChange={(v) => getPlacePredictions({ input: v })}
       onSetValue={onChange}

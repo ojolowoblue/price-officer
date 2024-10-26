@@ -1,9 +1,9 @@
 import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
 
-import AppWrapper from '@/components/AppWrapper';
 import AuthWrapper from '@/components/AuthWrapper';
 import AppLayout from '@/components/AppLayout';
+import AuthLayout from '@/components/AuthLayout';
 
 const EntryPage = lazy(() => import('@/views/Entry'));
 const ReportPrice = lazy(() => import('@/views/ReportPrice'));
@@ -12,11 +12,25 @@ const PriceDetails = lazy(() => import('@/views/PriceDetails'));
 const AboutPage = lazy(() => import('@/views/About'));
 const Signup = lazy(() => import('@/views/Signup'));
 const Signin = lazy(() => import('@/views/Signin'));
+const ResetPassword = lazy(() => import('@/views/ResetPassword'));
 
 export const appRoutes: RouteObject[] = [
   {
+    path: '/',
+    element: <AppLayout />,
+    children: [
+      { path: '', element: <EntryPage /> },
+      {
+        path: '/about',
+        element: <AboutPage />,
+      },
+      { path: 'view-prices', element: <ViewPrices /> },
+      { path: 'view-prices/:id', element: <PriceDetails /> },
+    ],
+  },
+  {
     path: '/auth',
-    element: <AuthWrapper />,
+    element: <AuthLayout />,
     children: [
       {
         path: 'signup',
@@ -27,27 +41,9 @@ export const appRoutes: RouteObject[] = [
         element: <Signin />,
       },
       {
-        path: '*',
-        element: <h1 className="text-center p-10">Page Not Found 👀</h1>,
+        path: 'reset-password',
+        element: <ResetPassword />,
       },
-    ],
-  },
-  {
-    element: <AppWrapper />,
-    children: [
-      {
-        path: 'report-price',
-        element: <ReportPrice />,
-      },
-
-      {
-        path: 'view-prices',
-        children: [
-          { index: true, element: <ViewPrices /> },
-          { path: ':id', element: <PriceDetails /> },
-        ],
-      },
-
       {
         path: '*',
         element: <h1 className="text-center p-10">Page Not Found 👀</h1>,
@@ -55,23 +51,12 @@ export const appRoutes: RouteObject[] = [
     ],
   },
   {
-    path: 'about',
+    path: '',
     element: (
-      <AppLayout>
-        <AboutPage />
-      </AppLayout>
+      <AuthWrapper>
+        <AppLayout />
+      </AuthWrapper>
     ),
-  },
-  {
-    path: '/',
-    element: (
-      <AppLayout>
-        <EntryPage />
-      </AppLayout>
-    ),
-  },
-  {
-    path: '*',
-    element: <h1 className="text-center p-10">Page Not Found 👀</h1>,
+    children: [{ path: 'report-price', element: <ReportPrice /> }],
   },
 ];

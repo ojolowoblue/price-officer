@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
-
 import Input from '@/components/ui/Input';
 import Label from '@/components/ui/Label';
 import {
@@ -17,9 +16,7 @@ import {
   DialogTitle,
 } from '@/components/ui/Dialog';
 
-import Switch from '@/components/ui/Switch';
-
-// import ImgIcon from '@/assets/img-icon.png';
+import ImgIcon from '@/assets/img-icon.png';
 import useListProducts, { useListUnits } from './hooks/useListProducts';
 import AutoComplete from '@/components/ui/AutoComplete';
 import useDebounce from '@/hooks/useDebounce';
@@ -46,7 +43,6 @@ export default function ReportPrice() {
   const [newProduct, setNewProduct] = useState('');
   const [newUnit, setNewUnit] = useState('');
   const [showFeedback, setShowFeedback] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState(false);
 
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -60,7 +56,14 @@ export default function ReportPrice() {
   const { updateProduct } = useUpdateProduct();
   const { createReport, isLoading } = useCreateReport();
 
-  const { control, setValue, register, handleSubmit, watch } = useForm({
+  const {
+    control,
+    setValue,
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -75,7 +78,7 @@ export default function ReportPrice() {
       },
       {
         onSuccess() {
-          queryClient.invalidateQueries({ queryKey: ['price-reports', {}, 1] });
+          queryClient.invalidateQueries({ queryKey: ['price-reports'] });
 
           setShowFeedback(true);
         },
@@ -92,6 +95,7 @@ export default function ReportPrice() {
     );
   };
 
+  console.log(errors);
   return (
     <form className="app-x-spacing py-4" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-2 mb-8">
@@ -131,6 +135,7 @@ export default function ReportPrice() {
               <>
                 <AutoComplete
                   label="Select unit"
+                  className="w-full"
                   value={field.value}
                   onInputValueChange={(v) => {
                     setNewUnit(v);
@@ -197,13 +202,6 @@ export default function ReportPrice() {
                       );
                     }
                   }}
-                  // options={Array.from(new Set(units.map((prod) => prod.unit).flat()))
-                  //   .map((unit) => ({
-                  //     label: unit,
-                  //     value: unit,
-                  //   }))
-                  //   .filter((u) => u.value.includes(newUnit))}
-
                   options={Array.from(new Set(units.find((p) => p.id === newProduct || p.id === product)?.unit ?? []))
                     .map((v) => ({ label: v, value: v }))
                     .filter((u) => u.value.includes(newUnit))}
@@ -231,18 +229,9 @@ export default function ReportPrice() {
           name="location"
           render={({ field }) => (
             <div>
-              <div className="mb-2.5 flex items-center justify-between">
-                <p className="text-muted text-sm">Use my current location as shop location</p>
-                <Switch onCheckedChange={(v) => setCurrentLocation(v)} />
-              </div>
-
               <Label className="mb-2.5">Shop Location</Label>
 
-              <AddressInput
-                value={field.value}
-                useCurrentLocation={currentLocation}
-                onChange={(v) => setValue('location', v, { shouldDirty: true })}
-              />
+              <AddressInput value={field.value} onChange={(v) => setValue('location', v, { shouldDirty: true })} />
             </div>
           )}
         />
@@ -250,7 +239,7 @@ export default function ReportPrice() {
         <Input label="Shop Name / Details" placeholder="Enter shop details" {...register('description')} />
       </div>
 
-      {/* <div className="mb-3.5 mt-4">
+      <div className="mb-3.5 mt-4">
         <Label className="mb-2.5">
           Product Image <span className="text-muted text-xs">(Optional)</span>
         </Label>
@@ -262,7 +251,7 @@ export default function ReportPrice() {
 
           <p className="text-placeholder text-sm">Maximum size: 50MB</p>
         </div>
-      </div> */}
+      </div>
 
       <Button
         loading={isLoading}

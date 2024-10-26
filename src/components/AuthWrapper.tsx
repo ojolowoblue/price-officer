@@ -1,27 +1,14 @@
-import { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { PropsWithChildren } from 'react';
+import { Navigate } from 'react-router-dom';
 
 import useAuth from '@/hooks/useAuth';
-import Header from './Header';
 
-export default function AuthWrapper() {
-  const navigate = useNavigate();
-
+export default function AuthWrapper(props: PropsWithChildren) {
   const isLoggedIn = useAuth();
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate('/');
-    }
-  }, [isLoggedIn]);
+  if (!isLoggedIn) {
+    return <Navigate to="/auth/signin" />;
+  }
 
-  return (
-    <>
-      <Header />
-
-      <div className="max-w-lg relative m-auto">
-        <Outlet />
-      </div>
-    </>
-  );
+  return props.children;
 }

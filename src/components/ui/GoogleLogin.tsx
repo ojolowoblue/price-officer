@@ -1,13 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import { CredentialResponse, GoogleLogin, GoogleLoginProps } from '@react-oauth/google';
 
 import useGoogleSignin from '@/hooks/useGoogleSignIn';
 import { useTokenDispatch } from '@/providers/TokenProvider';
 import { parseError } from '@/libs/error';
 import { toast } from '@/hooks/useToast';
 
-export default function GoogleSignin() {
+interface Props {
+  text?: GoogleLoginProps['text'];
+}
+
+export default function GoogleSignin({ text }: Props) {
   const navigate = useNavigate();
   const dispatch = useTokenDispatch();
   const { googleSignin } = useGoogleSignin();
@@ -41,7 +45,7 @@ export default function GoogleSignin() {
 
   return (
     <div>
-      <GoogleLogin onSuccess={handleGoogleSignIn} onError={() => console.log('Error')} />
+      <GoogleLogin text={text} onSuccess={handleGoogleSignIn} onError={() => console.log('Error')} />
     </div>
   );
 }

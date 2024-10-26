@@ -7,7 +7,7 @@ import { formatMoney, formatNumber } from '@/libs/money';
 import { PriceReport } from '@/model/report';
 
 export default function PriceCard(props: PriceReport) {
-  const { location, updatedAt, price, description, stat, images, id } = props;
+  const { location, updatedAt, price, description, stat, images, id, product } = props;
 
   const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ export default function PriceCard(props: PriceReport) {
           <p className="text-xs leading-[14px] text-[#667085]">
             {formatDateStr(updatedAt, 'DD MMM YYYY [at] hh:mm a')}
           </p>
-          <p className="text-sm text-[#1F2937]">{description}</p>
+          <p className="text-sm text-[#1F2937] capitalize">{product.name}</p>
 
           <h2 className="text-xl font-semibold text-[#101928]">{formatMoney(price)}</h2>
         </div>

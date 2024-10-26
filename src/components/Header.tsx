@@ -1,5 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { LogOutIcon, Menu, X } from 'lucide-react';
+import { jwtDecode } from 'jwt-decode';
+import { Menu, X } from 'lucide-react';
+
 import {
   Sheet,
   SheetClose,
@@ -10,25 +12,26 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/Sheet';
-
-import Spinner from '@/assets/icons/loader.svg?react';
 import Logo from '@/assets/logo.svg';
 import { appLinks } from '@/constants/appLinks';
-import useLogout from '@/hooks/useLogout';
 import { useToken } from '@/providers/TokenProvider';
-import { navigateToLogin } from '@/libs/logout';
 import useAuth from '@/hooks/useAuth';
 import Button from './ui/Button';
 import { Avatar, AvatarFallback } from './ui/Avatar';
+import useGetUser from '@/hooks/useGetUser';
+import Logout from './Logout';
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
   const loggedIn = useAuth();
-  const { logout, isLoading } = useLogout();
 
-  const { refresh_token } = useToken();
+  const { access_token } = useToken();
+
+  const userId = access_token ? jwtDecode(access_token ?? '')?.sub : '';
+
+  const { user } = useGetUser(userId ?? '');
 
   return (
     <header className="h-[72px] z-50 sticky top-0 bg-background w-full flex items-center justify-between app-x-spacing max-w-full border-b border-divider">
@@ -70,36 +73,31 @@ export default function Header() {
                   {link.name}
                 </SheetTrigger>
               ))}
-
-              <button
-                onClick={() => {
-                  logout(
-                    { refreshToken: refresh_token ?? '' },
-                    {
-                      onSuccess: navigateToLogin,
-                    },
-                  );
-                }}
-                className=" flex items-center gap-2 py-4 px-3 w-full text-sm text-placeholder text-left"
-              >
-                Logout {isLoading ? <Spinner className="animate-spin" width={20} /> : <LogOutIcon />}
-              </button>
             </div>
           </SheetHeader>
 
           <SheetFooter className="align-bottom">
             {!loggedIn ? (
-              <div className="flex flex-col gap-5">
+              <div className="w-full flex flex-col gap-5">
                 <Button fullWidth>Sign Up</Button>
                 <Button fullWidth variant="outline">
                   Login
                 </Button>
               </div>
             ) : (
-              <div>
-                <Avatar>
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
+              <div className="flex w-full flex-col gap-8">
+                <div className="flex items-center gap-2">
+                  <Avatar>
+                    <AvatarFallback className="uppercase">
+                      {user?.name?.[0]}
+                      {user?.name?.[1]}
+                    </AvatarFallback>
+                  </Avatar>
+
+                  <p className="text-sm text-[#667085]">{user?.email}</p>
+                </div>
+
+                <Logout />
               </div>
             )}
           </SheetFooter>
