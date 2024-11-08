@@ -7,17 +7,18 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   label?: string;
   error?: boolean;
   errorMessage?: string;
+  suffix?: React.ReactNode;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, error, errorMessage, ...props }, ref) => {
+  ({ className, type, label, error, errorMessage, suffix, ...props }, ref) => {
     return (
       <div>
         {label && <Label className="mb-2.5">{label}</Label>}
 
         <div
           className={cn(
-            'flex items-center px-5 h-11 w-full rounded-md border border-input bg-background placeholder:font-normal text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-placeholder focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2',
+            'flex items-center gap-2 px-5 h-11 w-full rounded-md border border-input bg-background placeholder:font-normal text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-placeholder focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2',
             {
               'focus:ring-destructive focus-within:ring-destructive focus:border-destructive border-destructive outline-none':
                 error,
@@ -33,6 +34,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             {...props}
           />
+
+          {suffix}
         </div>
 
         {errorMessage && <p className="mt-2.5 text-destructive text-sm font-medium">{errorMessage}</p>}
