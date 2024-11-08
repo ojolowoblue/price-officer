@@ -1,4 +1,4 @@
-import { Check, Loader2Icon, Option, PlusCircleIcon } from 'lucide-react';
+import { Check, Loader2Icon, Option, PlusCircleIcon, X } from 'lucide-react';
 import { Command as CommandPrimitive } from 'cmdk';
 import { useState, useRef, useCallback, type KeyboardEvent, useEffect } from 'react';
 
@@ -16,6 +16,7 @@ type AutoCompleteProps = {
   onInputValueChange?: (v: string) => void;
   onCreateNewOption?: (input: string) => void;
   onSetValue: (v: string) => void;
+  onClear?: () => void;
   value?: string;
   placeholder?: string;
   className?: string;
@@ -31,6 +32,7 @@ const AutoComplete = ({
   onCreateNewOption,
   placeholder,
   className,
+  onClear,
 }: AutoCompleteProps) => {
   const textAreaRef = useRef<HTMLInputElement>(null);
 
@@ -110,6 +112,18 @@ const AutoComplete = ({
           placeholder={placeholder}
           autoComplete="off"
           className={cn('text-base minw-[300px]', className)}
+          suffix={
+            (selected || inputValue) && (
+              <X
+                onClick={() => {
+                  setInputValue('');
+                  setSelected(undefined);
+                  !!onInputValueChange && onInputValueChange('');
+                  !!onClear && onClear();
+                }}
+              />
+            )
+          }
         />
       </div>
 

@@ -7,6 +7,8 @@ import useDebounce from '@/hooks/useDebounce';
 import AutoComplete from '@/components/ui/AutoComplete';
 import useListProducts from '../ReportPrice/hooks/useListProducts';
 import EmptyState from '@/components/EmptyState';
+import { useAllProductComments } from '@/hooks/useAllProductComments';
+import { useAllProductLikes } from '@/hooks/useAllProductLikes';
 
 export default function Entry() {
   const [searchTerm, setSearchTerm] = useState<string | undefined>();
@@ -15,6 +17,9 @@ export default function Entry() {
   const debouncedQuery = useDebounce(searchTerm, 1000);
 
   const { products = [] } = useListProducts({ name: debouncedQuery || undefined });
+
+  const { likes } = useAllProductLikes();
+  const { comments } = useAllProductComments();
 
   const { data, isLoading, error, listReports } = useListPriceReports({
     include: 'product',
@@ -38,6 +43,7 @@ export default function Entry() {
           onSetValue={(v) => {
             setProductId(v);
           }}
+          onClear={() => setProductId(undefined)}
           options={products.map((prod) => ({ label: prod.name, value: prod.id }))}
         />
       </div>
@@ -69,7 +75,7 @@ export default function Entry() {
           {data && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xl:grid-cols-3">
               {data.results.map((p) => (
-                <PriceCard key={p.id} {...p} />
+                <PriceCard key={p.id} likes={likes[p.id] || 0} comments={comments[p.id] || 0} {...p} />
               ))}
             </div>
           )}

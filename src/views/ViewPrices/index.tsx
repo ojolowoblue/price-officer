@@ -8,6 +8,8 @@ import PriceCard from '@/components/PriceCard';
 import AutoComplete from '@/components/ui/AutoComplete';
 import useDebounce from '@/hooks/useDebounce';
 import useListProducts from '../ReportPrice/hooks/useListProducts';
+import { useAllProductLikes } from '@/hooks/useAllProductLikes';
+import { useAllProductComments } from '@/hooks/useAllProductComments';
 
 const sortOptions = [
   { label: 'Default sorting', value: undefined },
@@ -24,6 +26,9 @@ export default function ViewPrices() {
   const [sortBy, setSortBy] = useState<string | undefined>();
   const debouncedQuery = useDebounce(searchTerm, 1000);
 
+  const { likes } = useAllProductLikes();
+  const { comments } = useAllProductComments();
+
   const { products = [] } = useListProducts({ name: debouncedQuery || undefined });
 
   const { data, isLoading, error, listReports } = useListPriceReports({
@@ -32,6 +37,8 @@ export default function ViewPrices() {
     sortBy: sortBy || 'updatedAt:desc',
     limit: 20,
   });
+
+  console.log(likes);
 
   return (
     <div className="bg-[#f9fafb] min-h-[90vh]">
@@ -45,6 +52,7 @@ export default function ViewPrices() {
           onInputValueChange={(v) => {
             setSearchTerm(v);
           }}
+          onClear={() => setProductId(undefined)}
           onSetValue={(v) => {
             setProductId(v);
           }}
@@ -80,7 +88,7 @@ export default function ViewPrices() {
         <AppLoader notPage loading={isLoading} errorMessage={error} onRetry={listReports}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xl:grid-cols-3">
             {data?.results.map((p) => (
-              <PriceCard key={p.id} {...p} />
+              <PriceCard key={p.id} likes={likes[p.id] || 0} comments={comments[p.id] || 0} {...p} />
             ))}
           </div>
         </AppLoader>

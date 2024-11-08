@@ -1,23 +1,25 @@
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import { CredentialResponse, GoogleLogin, GoogleLoginProps } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 
 import useGoogleSignin from '@/hooks/useGoogleSignIn';
 import { useTokenDispatch } from '@/providers/TokenProvider';
 import { parseError } from '@/libs/error';
 import { toast } from '@/hooks/useToast';
+import Button from './Button';
 
 interface Props {
-  text?: GoogleLoginProps['text'];
+  text?: string;
 }
 
 export default function GoogleSignin({ text }: Props) {
   const navigate = useNavigate();
   const dispatch = useTokenDispatch();
+
   const { googleSignin } = useGoogleSignin();
 
-  const handleGoogleSignIn = (cred: CredentialResponse) => {
-    const token = cred.credential as string;
+  const handleGoogleSignIn = (cred: { access_token: string }) => {
+    const token = cred.access_token;
 
     googleSignin(
       { token },
@@ -43,9 +45,17 @@ export default function GoogleSignin({ text }: Props) {
     );
   };
 
+  const login = useGoogleLogin({
+    scope: 'email profile',
+    flow: 'implicit',
+    onSuccess: handleGoogleSignIn,
+  });
+
   return (
     <div>
-      <GoogleLogin text={text} onSuccess={handleGoogleSignIn} onError={() => console.log('Error')} />
+      <Button fullWidth variant="outline" onClick={() => login()}>
+        {text ?? 'Sign In With Google'}
+      </Button>
     </div>
   );
 }

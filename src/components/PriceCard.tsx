@@ -3,11 +3,11 @@ import { MessageCircle, ThumbsUp } from 'lucide-react';
 
 import { cn } from '@/libs/classnames';
 import { formatDateStr } from '@/libs/date';
-import { formatMoney, formatNumber } from '@/libs/money';
+import { formatMoney } from '@/libs/money';
 import { PriceReport } from '@/model/report';
 
-export default function PriceCard(props: PriceReport) {
-  const { location, updatedAt, price, description, stat, images, id, product } = props;
+export default function PriceCard(props: PriceReport & { likes: number; comments: number }) {
+  const { location, updatedAt, price, description, images, id, product, likes, comments } = props;
 
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ export default function PriceCard(props: PriceReport) {
             >
               <ThumbsUp width={12} color={false ? '#01B049' : '#000'} />
             </span>
-            <span className="text-[#0A090B] text-xs">{formatNumber(stat.likes)}</span>
+            <span className="text-[#0A090B] text-xs">{likes}</span>
           </p>
 
           <p className="flex gap-1 items-center">
@@ -54,7 +54,7 @@ export default function PriceCard(props: PriceReport) {
             >
               <MessageCircle width={12} color={false ? '#01B049' : '#000'} />
             </span>
-            <span className="text-[#0A090B] text-xs">{stat.comments}</span>
+            <span className="text-[#0A090B] text-xs">{comments}</span>
           </p>
         </div>
       </div>
