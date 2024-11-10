@@ -42,7 +42,11 @@ export default function ResetPassword() {
           <div className="flex justify-center flex-col gap-5 mt-2">
             <Button
               onClick={() => {
-                logout({ refreshToken: refresh_token ?? '' }, { onSuccess: navigateToLogin });
+                if (refresh_token) {
+                  logout({ refreshToken: refresh_token }, { onSuccess: navigateToLogin });
+                } else {
+                  navigateToLogin();
+                }
               }}
               variant="primary"
               loading={isLoading}
