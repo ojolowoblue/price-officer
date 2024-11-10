@@ -67,7 +67,7 @@ export default function Signup() {
     <div className="p-5 flex flex-col min-h-screen bg-white">
       <h1 className="text-[16px] font-[500] mb-8">Sign up to create an account</h1>
 
-      <GoogleSignin text="signup_with" />
+      <GoogleSignin text="Sign Up with Google" />
 
       <div className="flex items-center w-full mt-8 mb-10">
         <div className="border-t border-[#f3f3f3] flex-grow"></div>
