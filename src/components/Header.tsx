@@ -79,8 +79,10 @@ export default function Header() {
           <SheetFooter className="align-bottom">
             {!loggedIn ? (
               <div className="w-full flex flex-col gap-5">
-                <Button fullWidth>Sign Up</Button>
-                <Button fullWidth variant="outline">
+                <Button onClick={() => navigate('/auth/signup')} fullWidth>
+                  Sign Up
+                </Button>
+                <Button onClick={() => navigate('/auth/signin')} fullWidth variant="outline">
                   Login
                 </Button>
               </div>

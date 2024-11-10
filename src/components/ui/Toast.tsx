@@ -3,7 +3,7 @@ import * as ToastPrimitives from '@radix-ui/react-toast';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/libs/classnames';
-import { CrossIcon } from 'lucide-react';
+import { X } from 'lucide-react';
 
 const ToastProvider = ToastPrimitives.Provider;
 
@@ -75,7 +75,7 @@ const ToastClose = React.forwardRef<
     toast-close=""
     {...props}
   >
-    <CrossIcon className="h-4 w-4" />
+    <X className="h-4 w-4" />
   </ToastPrimitives.Close>
 ));
 ToastClose.displayName = ToastPrimitives.Close.displayName;
